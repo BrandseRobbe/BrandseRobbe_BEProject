@@ -1,0 +1,39 @@
+﻿@model Quiz.Web.ViewModels.RolesForUser_VM
+
+@{
+    ViewData["Title"] = "AddRoleToUser";
+    ViewBag.userroles = Model;
+}
+
+<h1>AddRoleToUser</h1>
+
+<div>
+    <h4>RolesForUser_VM</h4>
+    <hr />
+    <form asp-controller="Admin" asp-action="AddUserToRole" data="">
+        <p>User @(Html.DisplayFor(model => model.User.Name)) has following roles</p>
+        @if (@Model.AssignedRoles.Count() > 0)
+        {
+            <ul>
+                @foreach (var item in Model.AssignedRoles)
+                {
+                    <li>@(item)</li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>Nog geen role geselecteerd</p>
+        }
+        <p>Select additional or new role if applicable</p>
+
+        <select asp-for="SelectedRoleId" asp-items="@(new SelectList(Model.UnAssignedRoles))">
+        </select>
+        <br /><br />
+        <input type="submit" value="Assign selected role to user" class="btn btn-primary" />
+    </form>
+
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

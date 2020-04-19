@@ -1,0 +1,12 @@
+﻿@page
+@model LogoutModel
+@inject SignInManager<Person> SignInManager
+@inject UserManager<Person> UserManager
+@{
+    ViewData["Title"] = "Log out";
+}
+
+<header>
+    <h1>@ViewData["Title"]</h1>
+    <p>You have successfully logged out of the application.</p>
+</header>

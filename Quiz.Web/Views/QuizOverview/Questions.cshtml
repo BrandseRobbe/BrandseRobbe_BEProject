@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Quiz.Models.Question>
+
+@{
+    ViewData["Title"] = "Questions";
+}
+
+<h1>Questions</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.QuestionId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QuestionId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateCreated)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.QuestionId }) |
+                    @Html.ActionLink("Edit", "Edit", new { id = item.QuestionId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.QuestionId })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
