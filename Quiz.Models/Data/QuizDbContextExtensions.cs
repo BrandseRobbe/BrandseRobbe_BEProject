@@ -87,9 +87,11 @@ namespace Quiz.Models.Data
                     UserName = "admin@mail.com"
                 };
                 var userResult = await userMgr.CreateAsync(user, "Admin#1");
-                var roleResult = await userMgr.AddToRoleAsync(user, "Admin");
+                var roleResult1 = await userMgr.AddToRoleAsync(user, "Admin");
+                var roleResult2 = await userMgr.AddToRoleAsync(user, "Creator");
+                var roleResult3 = await userMgr.AddToRoleAsync(user, "Player");
                 // var claimResult = await userMgr.AddClaimAsync(user, new Claim("DocentWeb", "True"));                
-                if (!userResult.Succeeded || !roleResult.Succeeded)
+                if (!userResult.Succeeded || !roleResult1.Succeeded || !roleResult2.Succeeded || !roleResult3.Succeeded)
                 {
                     throw new InvalidOperationException("Failed to build user and roles");
                 }

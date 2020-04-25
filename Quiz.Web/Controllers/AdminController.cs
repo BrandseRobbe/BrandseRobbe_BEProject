@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Quiz.Models;
+using Quiz.Models.DTO;
 using Quiz.Web.ViewModels;
 
 namespace Quiz.Web.Controllers
@@ -103,6 +104,7 @@ namespace Quiz.Web.Controllers
             }
         }
 
+
         public ActionResult IndexUsers()
         {
             //De view ontvangt een @model IEnumerable<User> 
@@ -110,54 +112,113 @@ namespace Quiz.Web.Controllers
             return View(users);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> AddRoleToUser(string id)
+        //details van user
+        public async Task<IActionResult> User(string id)
         {
-            //ApplicationUser user = new ApplicationUser();
-            User user = new User();
-            //Op basis van het userId halt de _userManager de volledige user op 
-            if (!String.IsNullOrEmpty(id))
-            {
-                user = await _userManager.FindByIdAsync(id);
-            }
-            if (user == null)
-            {
-                return RedirectToAction("IndexRoles", _roleManager.Roles);
-            }
-            //Reeds toegekende rollen 
-            var assignRolesToUserVM = new RolesForUser_VM()
-            {
-                AssignedRoles = await _userManager.GetRolesAsync(user),
-                UnAssignedRoles = new List<string>(),
-                User = user,
-                //UserId = id
-            };
-            //Nog niet toegekende rollen 
-            foreach (var identityRole in _roleManager.Roles)
-            {
-                if (!await _userManager.IsInRoleAsync(user, identityRole.Name))
-                {
-                    assignRolesToUserVM.UnAssignedRoles.Add(identityRole.Name);
-                }
-            }
-            return View(assignRolesToUserVM);
+            User user = await _userManager.FindByIdAsync(id);
+            var userroles = await _userManager.GetRolesAsync(user);
+            User_VM viewmodel = new User_VM() { Email = user.Email, Name = user.Name, Id = user.Id, Roles = userroles };
+            return View(viewmodel);
+        }
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            User user = await _userManager.FindByIdAsync(id);
+            User_VM viewmodel = new User_VM() { Email = user.Email, Name = user.Name, Id = user.Id };
+            return View(viewmodel);
         }
         [HttpPost]
-        public async Task<IActionResult> AddUserToRole(RolesForUser_VM rolesForUserVM)
+        public async Task<IActionResult> DeleteUser(string id, IFormCollection collection)
         {
-            var user = await _userManager.FindByIdAsync(rolesForUserVM.User.Id);
-            var role = await _roleManager.FindByNameAsync(rolesForUserVM.SelectedRoleId);
-            var result = await _userManager.AddToRoleAsync(user, role.Name);
-            if (result.Succeeded)
+            try
             {
-                return RedirectToAction("IndexRoles", _roleManager.Roles);
+                if (id == null)
+                {
+                    throw new Exception("Bad Delete Request.");
+                }
+                User role = await _userManager.FindByIdAsync(id);
+                if (role == null)
+                {
+                    throw new Exception("Can't find user");
+                }
+                IdentityResult result = await _userManager.DeleteAsync(role);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("IndexUsers", _roleManager.Roles);
+                }
+                else
+                {
+                    ModelState.AddModelError("", $"Not Found: {result.Errors}");
+                    //throw new Exception("Not Found");
+                    return NotFound();
+                }
             }
-            return View(rolesForUserVM);
+            catch (Exception exc)
+            {
+                ModelState.AddModelError(String.Empty, $"Delete failed: {exc.Message}");
+                return View();
+            }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> EditRoles(string id)
+        {
 
+            if (String.IsNullOrEmpty(id))
+            {
+                throw new Exception("Bad Delete Request.");
+            }
+            User user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                throw new Exception("Bad Delete Request.");
+            }
+            EditRoles_VM viewmodel = new EditRoles_VM() { Id = user.Id, Name = user.Name };
 
+            foreach (var role in _roleManager.Roles)
+            {
+                viewmodel.Roles.Add(role.Name, await _userManager.IsInRoleAsync(user, role.Name));
+            }
+            return View(viewmodel);
+        }
 
+        [HttpPost]
+        public async Task<IActionResult> EditRoles(EditRoles_VM viewmodel)
+        {
+            var user = await _userManager.FindByIdAsync(viewmodel.Id);
+            if (user == null)
+            {
+                throw new Exception("Bad Request.");
+            }
+            foreach (KeyValuePair<string, bool> pair in viewmodel.Roles)
+            {
+
+                if (pair.Value)
+                {
+                    Role role = await _roleManager.FindByNameAsync(pair.Key);
+                    if (!await _userManager.IsInRoleAsync(user, role.Name))
+                    {
+                        var result = await _userManager.AddToRoleAsync(user, role.Name);
+                        if (!result.Succeeded)
+                        {
+                            throw new Exception("Not Found");
+                        }
+                    }
+                }
+                else
+                {
+                    Role role = await _roleManager.FindByNameAsync(pair.Key);
+                    if (await _userManager.IsInRoleAsync(user, role.Name))
+                    {
+                        var result = await _userManager.RemoveFromRoleAsync(user, role.Name);
+                        if (!result.Succeeded)
+                        {
+                            throw new Exception("Not Found");
+                        }
+                    }
+                }
+            }
+            return RedirectToAction(nameof(IndexUsers));
+        }
 
 
         // GET: Admin

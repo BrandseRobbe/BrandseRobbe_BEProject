@@ -18,7 +18,7 @@
     "Quiz.Web": {
         "commandName": "Project",
         "launchBrowser": true,
-        "launchUrl": "QuestionOverview/Index",
+        "launchUrl": "Admin/EditRoles/bde029d5-c053-4886-b822-4d7605813248",
         "applicationUrl": "https://localhost:5001;http://localhost:5000",
         "environmentVariables": {
             "ASPNETCORE_ENVIRONMENT": "Development"
