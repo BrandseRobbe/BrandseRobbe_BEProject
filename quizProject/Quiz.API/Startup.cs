@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Quiz.Models;
 using Quiz.Models.Repositories;
@@ -49,17 +50,17 @@ namespace Quiz.API
             services.AddDbContext<QuizDbContext>(options => options.UseSqlServer(connectionString));
 
             //2.2 Identity
-            services.AddIdentity<Person, IdentityRole>()
+            services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<QuizDbContext>();
 
             //3 Registraties van Repos
-            services.AddScoped<IPersonRepo, PersonRepo>();
+            services.AddScoped<IUserRepo, UserRepo>();
             services.AddScoped<IQuizRepo, QuizRepo>();
 
-            //services.AddSwaggerGen(c =>
-            //{
-            //    c.SwaggerDoc("v1.0", new OpenApiInfo { Title = "ToDo_API", Version = "v1.0" });
-            //});
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1.0", new OpenApiInfo { Title = "ToDo_API", Version = "v1.0" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

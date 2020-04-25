@@ -13,7 +13,7 @@ namespace Quiz.Models
         //[Display(Name = "Id")]
         //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid QuizId { get; set; }  = Guid.NewGuid();
-        //public int Difficulty { get; set; }
+        public int Difficulty { get; set; }
         [Required]
         public string Name { get; set; }
 

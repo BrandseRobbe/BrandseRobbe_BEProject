@@ -9,26 +9,26 @@ using System.Threading.Tasks;
 
 namespace Quiz.Models.Repositories
 {
-    public class PersonRepo : IPersonRepo
+    public class UserRepo : IUserRepo
     {
-        private readonly UserManager<Person> userMgr;
+        private readonly UserManager<User> userMgr;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly QuizDbContext context;
 
-        public PersonRepo(UserManager<Person> userMgr, RoleManager<IdentityRole> roleManager, QuizDbContext context)
+        public UserRepo(UserManager<User> userMgr, RoleManager<IdentityRole> roleManager, QuizDbContext context)
         {
             this.userMgr = userMgr;
             this.roleManager = roleManager;
             this.context = context;
         }
 
-        public async Task<Person> Add(Person person)
+        public async Task<User> Add(User User)
         {
-            IdentityResult result = await userMgr.CreateAsync(person);
+            IdentityResult result = await userMgr.CreateAsync(User);
             return null;
         }
 
-        public Task AddEducationsToPerson(string id, string[] selectedEducationsString)
+        public Task AddEducationsToUser(string id, string[] selectedEducationsString)
         {
             throw new NotImplementedException();
         }
@@ -38,26 +38,26 @@ namespace Quiz.Models.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Person>> GetAllAsync(string roleName)
+        public async Task<IEnumerable<User>> GetAllAsync(string roleName)
         {
             var role = await roleManager.FindByNameAsync(roleName);
-            var result = userMgr.Users.Include(u => u.Roles).Where(p => p.Roles.Any(r => r.RoleId == role.Id));
+            var result = userMgr.Users.Include(u => u.UserRoles).Where(p => p.UserRoles.Any(r => r.RoleId == role.Id));
             return result;
         }
 
-        public async Task<Person> GetForIdAsync(string id)
+        public async Task<User> GetForIdAsync(string id)
         {
             return await userMgr.FindByIdAsync(id);
         }
 
-        public async Task<Person> GetForNameAsync(string name)
+        public async Task<User> GetForNameAsync(string name)
         {
             return await userMgr.FindByNameAsync(name);
         }
 
-        public bool PersonExists(string id)
+        public bool UserExists(string id)
         {
-            return context.Persons.Any(e => e.Id == id);
+            return context.Users.Any(e => e.Id == id);
 
         }
 
@@ -66,7 +66,7 @@ namespace Quiz.Models.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<Person> Update(Person person)
+        public Task<User> Update(User User)
         {
             throw new NotImplementedException();
         }

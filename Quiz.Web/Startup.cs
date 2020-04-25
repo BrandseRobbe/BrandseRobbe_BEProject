@@ -29,6 +29,12 @@ namespace Quiz.Web
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddIdentity<User, Role>() //NIET de AddDefaultIdentity()) 
+                .AddEntityFrameworkStores<QuizDbContext>()
+                .AddRoles<Role>()
+                .AddDefaultTokenProviders() //voorkomt error: NotSupportedException: No IUserTwoFactorTokenProvider<TUser> named 'Default' is registered.
+                .AddDefaultUI(); //voorkomt error op registratie pagina: 'Unable to resolve service for type IEmailSender while attempting to activate RegisterModel'
+
 
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -46,14 +52,14 @@ namespace Quiz.Web
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
             });
 
-            //services.AddScoped<IPersonRepo, PersonRepo>();
+            //services.AddScoped<IUserRepo, UserRepo>();
             services.AddScoped<IQuizRepo, QuizRepo>();
             services.AddScoped<IQuestionRepo, QuestionRepo>();
 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IQuizRepo quizRepo, IQuestionRepo questionRepo, QuizDbContext context)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IQuizRepo quizRepo, IQuestionRepo questionRepo, QuizDbContext context, RoleManager<Role> roleMgr, UserManager<User> userMgr)
         {
             if (env.IsDevelopment())
             {
@@ -84,7 +90,7 @@ namespace Quiz.Web
             //QuizDbContextExtensions.SeedQuiz(quizRepo, questionRepo).Wait();
 
             //QuizDbContextExtensions.SeedRoles(roleMgr).Wait();
-            //QuizDbContextExtensions.SeedUsers(userMgr).Wait();
+            QuizDbContextExtensions.SeedUsers(userMgr).Wait();
             //QuizDbContextExtensions.SeedData(context).Wait();
         }
     }

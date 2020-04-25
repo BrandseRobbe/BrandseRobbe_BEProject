@@ -18,6 +18,7 @@ namespace Quiz.Models.Data
         public async static Task SeedQuiz(IQuizRepo quizRepo, IQuestionRepo questionRepo)
         {
             string[] quizNames = { "Animals", "trivia", "geography" };
+            List<QuizClass>  quizzes = new List<QuizClass>();
             foreach (var quizName in quizNames)
             {
                 var quiz = await quizRepo.GetQuizByNameAsync(quizName);
@@ -29,6 +30,7 @@ namespace Quiz.Models.Data
                     };
                     await quizRepo.Create(newQuiz);
                 }
+                quizzes.Add(quiz);
             }
 
             Question vraag1 = new Question()
@@ -56,8 +58,67 @@ namespace Quiz.Models.Data
             {
                 await questionRepo.Create(vraag1);
             }
-            await quizRepo.AddQuestionToQuizAsync(new Guid("E497D9A5-09CF-41EA-893D-06EB3B0E610F"), vraag1.QuestionId);
+            await quizRepo.AddQuestionToQuizAsync(quizzes[0].QuizId, vraag1.QuestionId);
         }
+
+        public async static Task SeedRoles(RoleManager<Role> RoleMgr)
+        {
+            IdentityResult roleResult; string[] roleNames = { "Admin", "Player", "Creator"};
+            foreach (var roleName in roleNames)
+            {
+                var roleExist = await RoleMgr.RoleExistsAsync(roleName);
+                if (!roleExist) 
+                {
+                    Role role = new Role(roleName);
+                    roleResult = await RoleMgr.CreateAsync(role); 
+                }
+            }
+        }
+        public async static Task SeedUsers(UserManager<User> userMgr)
+        {
+            //Admin aanmaken 
+            if (await userMgr.FindByNameAsync("admin@mail.com") == null)
+            {
+                var user = new User()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = "Admin",
+                    Email = "admin@mail.com",
+                    UserName = "admin@mail.com"
+                };
+                var userResult = await userMgr.CreateAsync(user, "Admin#1");
+                var roleResult = await userMgr.AddToRoleAsync(user, "Admin");
+                // var claimResult = await userMgr.AddClaimAsync(user, new Claim("DocentWeb", "True"));                
+                if (!userResult.Succeeded || !roleResult.Succeeded)
+                {
+                    throw new InvalidOperationException("Failed to build user and roles");
+                }
+            }
+            //2. meerdere users  aanmaken --------------------------------------------         
+            //2a. persons met rol "Student" aanmaken       
+            //var nmbrStudents = 9;
+            //for (var i = 1; i <= nmbrStudents; i++)
+            //{
+            //    if (userMgr.FindByNameAsync("Student" + i).Result == null)
+            //    {
+            //        Person student = new Person
+            //        {
+            //            Id = Guid.NewGuid().ToString(),
+            //            UserName = "Student" + i,
+            //            Name = "nameStudent" + i,
+            //            Email = "emailSt" + i + "@howest.be",
+            //            Gender = (Person.GenderType)new Random().Next(0, 2), //GenderType.Male           
+            //        };
+            //        var userResult = await userMgr.CreateAsync(student, "studentP@sw00rd" + i);
+            //        var roleResult = await userMgr.AddToRoleAsync(student, "Student");
+            //        if (!userResult.Succeeded || !roleResult.Succeeded)
+            //        {
+            //            throw new InvalidOperationException("Failed to build " + student.UserName);
+            //        }
+            //    }
+            //}
+        }
+
     }
 }
 

@@ -16,6 +16,7 @@ namespace Quiz.Models
 
         //[StringLength(50, ErrorMessage = "The description cannot be longer than 50 characters.")]
 
+        [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:dd/MM/yyyy HH:mm}")]
         public DateTime DateCreated { get; set; } = DateTime.Now;
 
         public virtual ICollection<Option> PossibleOptions { get; set; }

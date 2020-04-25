@@ -5,13 +5,14 @@
 //using Microsoft.EntityFrameworkCore;
 //using Quiz.Models;
 
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Quiz.Models;
 
 namespace Quiz.Web.Data
 {
-    public partial class QuizDbContext : IdentityDbContext<Person>
+    public partial class QuizDbContext : IdentityDbContext<User, Role, string, IdentityUserClaim<string>, UserRole, IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>
     {
         public QuizDbContext(DbContextOptions<QuizDbContext> options)
             : base(options)
@@ -20,8 +21,11 @@ namespace Quiz.Web.Data
         public virtual DbSet<QuizClass> Quizzes { get; set; }
         public virtual DbSet<Question> Questions { get; set; }
         public virtual DbSet<Option> Options { get; set; }
-        public virtual DbSet<Person> Persons { get; set; }
+        public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<QuizQuestions> QuizQuestions { get; set; }
+
+        //public virtual DbSet<Role> Roles { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -29,6 +33,19 @@ namespace Quiz.Web.Data
             modelBuilder.Entity<QuizQuestions>(entity =>
             {
                 entity.HasKey(e => new { e.QuestionId, e.QuizId });
+            });
+
+            //tussentabel UserRole: KEYS:
+            modelBuilder.Entity<UserRole>(entity =>
+            {
+                entity.HasKey(e => new { e.UserId, e.RoleId });
+                //entity.HasKey(e => new { e.UserId, e.RoleId, e.EducationId }); 
+                //tussentabel UserRole: RELATIES: 
+                //Gezien de aangepaste tussentabellen(!) is het NOODZAKELIJK om de PK/FK 
+                // instructies aan te maken voor SQL SERVER. Zoniet gebruikt/maakt het 
+                // EF zijn eigen relaties aan en krijg je dubbel aangemaakte properties 
+                entity.HasOne(d => d.Role).WithMany(p => p.UserRoles).HasForeignKey(d => d.RoleId);
+                entity.HasOne(d => d.User).WithMany(p => p.UserRoles).HasForeignKey(d => d.UserId);
             });
         }
     }

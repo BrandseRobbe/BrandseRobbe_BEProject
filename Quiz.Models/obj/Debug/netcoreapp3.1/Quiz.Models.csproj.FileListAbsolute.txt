@@ -14,7 +14,6 @@ C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\B
 C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\labos_backend\Week05\Quiz.Models\bin\Debug\netcoreapp3.1\Quiz.Models.dll
 C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\labos_backend\Week05\Quiz.Models\bin\Debug\netcoreapp3.1\Quiz.Models.pdb
 C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\labos_backend\Week05\Quiz.Models\obj\Debug\netcoreapp3.1\Quiz.Models.csprojAssemblyReference.cache
-C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\Quiz.Models\obj\Debug\netcoreapp3.1\Quiz.Models.csproj.CoreCompileInputs.cache
 C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\Quiz.Models\obj\Debug\netcoreapp3.1\Quiz.Models.AssemblyInfoInputs.cache
 C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\Quiz.Models\obj\Debug\netcoreapp3.1\Quiz.Models.AssemblyInfo.cs
 C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\Quiz.Models\obj\Debug\netcoreapp3.1\Quiz.Models.dll
@@ -22,4 +21,8 @@ C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\B
 C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\Quiz.Models\bin\Debug\netcoreapp3.1\Quiz.Models.deps.json
 C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\Quiz.Models\bin\Debug\netcoreapp3.1\Quiz.Models.dll
 C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\Quiz.Models\bin\Debug\netcoreapp3.1\Quiz.Models.pdb
+C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\Quiz.Models\bin\Debug\netcoreapp3.1\Quiz.Models.runtimeconfig.json
+C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\Quiz.Models\bin\Debug\netcoreapp3.1\Quiz.Models.runtimeconfig.dev.json
+C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\Quiz.Models\obj\Debug\netcoreapp3.1\Quiz.Models.csproj.CoreCompileInputs.cache
+C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\Quiz.Models\obj\Debug\netcoreapp3.1\Quiz.Models.genruntimeconfig.cache
 C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\Quiz.Models\obj\Debug\netcoreapp3.1\Quiz.Models.csprojAssemblyReference.cache

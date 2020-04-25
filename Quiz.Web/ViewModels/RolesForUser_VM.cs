@@ -12,7 +12,7 @@ namespace Quiz.Web.ViewModels
     {
         [BindProperty]
         [Required]
-        public Person User { get; set; } //De ApplicationUser 
+        public User User { get; set; } //De ApplicationUser 
         //public string UserId { get; set; }
         //public string RoleId { get; set; }
         [BindProperty]

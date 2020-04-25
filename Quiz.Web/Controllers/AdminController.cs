@@ -15,10 +15,10 @@ namespace Quiz.Web.Controllers
     //[Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
-        private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly UserManager<Person> _userManager;
+        private readonly RoleManager<Role> _roleManager;
+        private readonly UserManager<User> _userManager;
 
-        public AdminController(RoleManager<IdentityRole> roleMgr, UserManager<Person> userMgr)
+        public AdminController(RoleManager<Role> roleMgr, UserManager<User> userMgr)
         {
             this._roleManager = roleMgr;
             this._userManager = userMgr;
@@ -37,7 +37,7 @@ namespace Quiz.Web.Controllers
         public async Task<IActionResult> CreateRole(AddRole_VM addRoleVM)
         {
             if (!ModelState.IsValid) return View(addRoleVM);
-            var role = new IdentityRole
+            var role = new Role()
             {
                 Name = addRoleVM.RoleName
             };
@@ -61,7 +61,7 @@ namespace Quiz.Web.Controllers
             {
                 return BadRequest();
             }
-            IdentityRole role = await _roleManager.FindByIdAsync(id);
+            Role role = await _roleManager.FindByIdAsync(id);
             if (role == null)
             {
                 return NotFound();
@@ -82,9 +82,9 @@ namespace Quiz.Web.Controllers
                 {
                     throw new Exception("Bad Delete Request.");
                 }
-                IdentityRole rol = await _roleManager.FindByIdAsync(id);
+                Role role = await _roleManager.FindByIdAsync(id);
                 //hier moet je eigenlijk nog controlere of het de rol wel degelijk kan vinden ... ma fack da
-                IdentityResult result = await _roleManager.DeleteAsync(rol);
+                IdentityResult result = await _roleManager.DeleteAsync(role);
                 if (result.Succeeded)
                 {
                     return RedirectToAction("IndexRoles", _roleManager.Roles);
@@ -105,7 +105,7 @@ namespace Quiz.Web.Controllers
 
         public ActionResult IndexUsers()
         {
-            //De view ontvangt een @model IEnumerable<Person> 
+            //De view ontvangt een @model IEnumerable<User> 
             var users = _userManager.Users;
             return View(users);
         }
@@ -114,7 +114,7 @@ namespace Quiz.Web.Controllers
         public async Task<IActionResult> AddRoleToUser(string id)
         {
             //ApplicationUser user = new ApplicationUser();
-            Person user = new Person();
+            User user = new User();
             //Op basis van het userId halt de _userManager de volledige user op 
             if (!String.IsNullOrEmpty(id))
             {

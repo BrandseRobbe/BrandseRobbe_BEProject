@@ -129,8 +129,13 @@ C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\B
 C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\quizProject\Quiz.API\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\quizProject\Quiz.API\bin\Debug\netcoreapp3.1\Quiz.Models.dll
 C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\quizProject\Quiz.API\bin\Debug\netcoreapp3.1\Quiz.Models.pdb
-C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\quizProject\Quiz.API\obj\Debug\netcoreapp3.1\Quiz.API.csproj.CoreCompileInputs.cache
-C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\quizProject\Quiz.API\obj\Debug\netcoreapp3.1\Quiz.API.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\quizProject\Quiz.API\obj\Debug\netcoreapp3.1\Quiz.API.dll
 C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\quizProject\Quiz.API\obj\Debug\netcoreapp3.1\Quiz.API.pdb
 C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\quizProject\Quiz.API\obj\Debug\netcoreapp3.1\Quiz.API.genruntimeconfig.cache
+C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\quizProject\Quiz.API\bin\Debug\netcoreapp3.1\Microsoft.OpenApi.dll
+C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\quizProject\Quiz.API\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\quizProject\Quiz.API\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\quizProject\Quiz.API\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\quizProject\Quiz.API\obj\Debug\netcoreapp3.1\Quiz.API.csproj.CoreCompileInputs.cache
+C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\quizProject\Quiz.API\obj\Debug\netcoreapp3.1\Quiz.API.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\quizProject\Quiz.API\obj\Debug\netcoreapp3.1\Quiz.API.MvcApplicationPartsAssemblyInfo.cache
