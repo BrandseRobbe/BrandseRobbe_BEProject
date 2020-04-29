@@ -98,7 +98,6 @@ namespace Quiz.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> Play(Game_VM vm, IFormCollection collection)
         {
-            var questionid = collection["QuestionId"];
             Game currentgame = await gameRepo.GetGameByIdAsync(vm.GameId);
             Guid questionId = new Guid(vm.QuestionId);
             Question currentquestion = await questionRepo.GetQuestionByIdAsync(questionId);
