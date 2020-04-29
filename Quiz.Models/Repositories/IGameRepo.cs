@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Quiz.Models.Repositories
@@ -7,7 +8,7 @@ namespace Quiz.Models.Repositories
     {
         Task<Game> Create(Game game);
         Task<IEnumerable<Game>> GetAllFinishedGamesAsync();
-        Task<Game> GetGameByIdAsync(string id);
+        Task<Game> GetGameByIdAsync(Guid id);
         Task<Game> Update(Game game);
     }
 }

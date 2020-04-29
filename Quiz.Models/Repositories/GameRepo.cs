@@ -17,7 +17,7 @@ namespace Quiz.Models.Repositories
             this.context = context;
         }
 
-        public async Task<Game> GetGameByIdAsync(string id)
+        public async Task<Game> GetGameByIdAsync(Guid id)
         {
             try
             {

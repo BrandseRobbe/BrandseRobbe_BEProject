@@ -8,8 +8,8 @@ namespace Quiz.Web.ViewModels
 {
     public class Game_VM
     {
-        public string GameId { get; set; } = new Guid().ToString();
-        public string QuestionId { get; set; }
+        public Guid GameId { get; set; }
+        public Guid QuestionId { get; set; }
         public string QuestionDescription { get; set; }
         public byte[] ImageData { get; set; }
         public IDictionary<string, bool> Options { get; set; } = new Dictionary<string, bool>();

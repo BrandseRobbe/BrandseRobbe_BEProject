@@ -41,9 +41,9 @@ namespace Quiz.Web.Controllers
             List<Scoreboard_VM> scoreboard = new List<Scoreboard_VM>();
             foreach(Game score in scores)
             {
-                QuizClass quiz = await quizRepo.GetQuizByIdAsync(new Guid(score.QuizId));
+                QuizClass quiz = await quizRepo.GetQuizByIdAsync(score.QuizId);
                 User user = await userMgr.FindByIdAsync(score.UserId);
-                var questions = await quizRepo.GetQuizQuestionsAsync(new Guid(score.QuizId));
+                var questions = await quizRepo.GetQuizQuestionsAsync(score.QuizId);
                 Scoreboard_VM vm = new Scoreboard_VM()
                 {
                     QuizName = quiz.Name,
@@ -57,7 +57,7 @@ namespace Quiz.Web.Controllers
             return View(scoreboard);
         }
 
-        public Game_VM convertGame(string gameid, Question question)
+        public Game_VM convertGame(Guid gameid, Question question)
         {
             Dictionary<string, bool> options = new Dictionary<string, bool>();
             foreach (Option option in question.PossibleOptions)
@@ -68,39 +68,39 @@ namespace Quiz.Web.Controllers
             {
                 GameId = gameid,
                 QuestionDescription = question.Description,
-                QuestionId = question.QuestionId.ToString(),
+                QuestionId = question.QuestionId,
                 Options = options,
                 ImageData = question.ImageData
             };
             return gamevm;
         }
 
-        public async Task<ActionResult> StartGame(string id)
+        public async Task<ActionResult> StartGame(Guid id)
         {
-            Guid quizId = new Guid(id);
-            var q = await quizRepo.GetQuizQuestionsAsync(quizId);
+            var q = await quizRepo.GetQuizQuestionsAsync(id);
             List<Question> questions = q.Cast<Question>().ToList();
             if (questions.Count() == 0)
             {
                 return BadRequest("Cant find the quiz");
             }
+
             Game game = new Game() { QuizId = id, UserId = User.FindFirstValue(ClaimTypes.NameIdentifier) };
             if (await gameRepo.Create(game) == null)
             {
                 return BadRequest("Can't create the quiz");
             }
-            Game_VM gamevm = convertGame(game.GameId, questions[0]);
-
-            //return await this.Play(gamevm);
-            return View("Play", gamevm);
+            Game_VM vm = convertGame(game.GameId, questions[0]);
+            
+            ViewBag.questionId = vm.QuestionId;
+            return View("Play", vm);
         }
 
         [HttpPost]
         public async Task<ActionResult> Play(Game_VM vm, IFormCollection collection)
         {
             Game currentgame = await gameRepo.GetGameByIdAsync(vm.GameId);
-            Guid questionId = new Guid(vm.QuestionId);
-            Question currentquestion = await questionRepo.GetQuestionByIdAsync(questionId);
+            Question currentquestion = await questionRepo.GetQuestionByIdAsync(vm.QuestionId);
+            
             // controleren of het antwoord juist was
             bool correct = true;
             foreach (Option option in currentquestion.PossibleOptions)
@@ -121,8 +121,9 @@ namespace Quiz.Web.Controllers
                     return BadRequest("Can't update");
                 }
             }
+
             //getting next question
-            var allquestions = await quizRepo.GetQuizQuestionsAsync(new Guid(currentgame.QuizId));
+            var allquestions = await quizRepo.GetQuizQuestionsAsync(currentgame.QuizId);
             bool save = false;
             Question nextQuestion = new Question();
             foreach (Question question in allquestions)
@@ -142,7 +143,7 @@ namespace Quiz.Web.Controllers
             if (save)
             {
                 //finish the quiz
-                QuizClass currentQuiz = await quizRepo.GetQuizByIdAsync(new Guid(currentgame.QuizId));
+                QuizClass currentQuiz = await quizRepo.GetQuizByIdAsync(currentgame.QuizId);
                 DateTime finishedtime = DateTime.Now;
                 TimeSpan completetime = finishedtime.Subtract(currentgame.TimeStarted);
                 Finished_VM finished_vm = new Finished_VM()
@@ -160,6 +161,7 @@ namespace Quiz.Web.Controllers
                 return View("Finished", finished_vm);
             }
             Game_VM next_vm = convertGame(currentgame.GameId, nextQuestion);
+            ViewBag.questionId = nextQuestion.QuestionId;
             return View("Play", next_vm);
         }
     }

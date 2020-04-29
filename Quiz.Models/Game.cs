@@ -9,9 +9,9 @@ namespace Quiz.Models
     {
         [Required]
         [Key]
-        public string GameId { get; set; } = Guid.NewGuid().ToString();
+        public Guid GameId { get; set; } = Guid.NewGuid();
         public string UserId { get; set; }
-        public string QuizId { get; set; }
+        public Guid QuizId { get; set; }
         public DateTime TimeStarted { get; set; } = DateTime.Now;
         public DateTime? TimeFinished { get; set; }
         public int CorrectAnswers { get; set; } = 0;
