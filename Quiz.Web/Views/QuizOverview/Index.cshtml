@@ -5,7 +5,9 @@
 }
 
 <h1>Index</h1>
-
+<p>
+    <a asp-action="CreateQuiz">Create New</a>
+</p>
 <table class="table">
     <thead>
         <tr>
@@ -16,6 +18,9 @@
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Difficulty)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.DateCreated)
             </th>
         </tr>
@@ -23,22 +28,25 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.QuizId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateCreated)
-                </td>
-                <td>
-                    @Html.ActionLink("Questions", "Questions", new { id = item.QuizId }) |
-                    @Html.ActionLink("Edit", "Edit", new { id = item.QuizId }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.QuizId })
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.QuizId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Difficulty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateCreated)
+            </td>
+            <td>
+                @Html.ActionLink("Questions", "Questions", new { id = item.QuizId }) |
+                @Html.ActionLink("Edit", "EditQuiz", new { id = item.QuizId }) |
+                @Html.ActionLink("Delete", "DeleteQuiz", new { id = item.QuizId })
+            </td>
+        </tr>
         }
     </tbody>
 </table>

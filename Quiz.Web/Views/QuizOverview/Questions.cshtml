@@ -5,7 +5,10 @@
 }
 
 <h1>Questions</h1>
-
+<p>
+    @*<a asp-action="CreateQuestion">Create New</a>*@
+    @Html.ActionLink("Create New", "CreateQuestion", new { id = ViewBag.quizId })
+</p>
 <table class="table">
     <thead>
         <tr>
@@ -34,9 +37,9 @@
                     @Html.DisplayFor(modelItem => item.DateCreated)
                 </td>
                 <td>
-                    @Html.ActionLink("Details", "Details", new { id = item.QuestionId }) |
-                    @Html.ActionLink("Edit", "Edit", new { id = item.QuestionId }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.QuestionId })
+                    @Html.ActionLink("Details", "QuestionDetails", new { questionId = item.QuestionId, quizId = ViewBag.quizId }) |
+                    @Html.ActionLink("Edit", "Edit", new { questionId = item.QuestionId, quizId = ViewBag.quizId }) |
+                    @Html.ActionLink("Delete", "DeleteQuestion", new { questionId = item.QuestionId, quizId = ViewBag.quizId })
                 </td>
             </tr>
         }

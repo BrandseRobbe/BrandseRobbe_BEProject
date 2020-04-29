@@ -1,0 +1,13 @@
+﻿@model Quiz.Web.ViewModels.Finished_VM
+
+@{
+    ViewData["Title"] = "Finished";
+}
+
+<h1>Quiz: @Html.DisplayFor(model => model.QuizDescription) finished</h1>
+
+<h2>Final score: @Html.DisplayFor(model => model.userscore)/@Html.DisplayFor(model => model.maxscore)</h2>
+<h2>Completion time: @Html.DisplayFor(model => model.completetime)</h2>
+<p>
+    <a asp-action="ScoreBoard">See scoreboard</a>
+</p>

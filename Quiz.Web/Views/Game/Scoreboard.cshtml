@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Quiz.Web.ViewModels.Scoreboard_VM>
+
+
+@{
+    ViewData["Title"] = "Scoreboard";
+}
+
+<h1>Scoreboard</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.QuizName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                Score
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.completetime)
+            </th>
+            @if(User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+            {
+                <th></th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QuizName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.correctanswers)/@Html.DisplayFor(modelItem => item.maxquestions)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.completetime)
+                </td>
+                @if(User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                {
+                    <td>
+                        @Html.ActionLink("Delete", "Delete", new { id = item.QuizId })
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>

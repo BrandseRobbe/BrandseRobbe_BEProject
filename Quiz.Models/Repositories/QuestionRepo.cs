@@ -54,7 +54,6 @@ namespace Quiz.Models.Repositories
                 return await context.Questions
                     .Include(e => e.PossibleOptions)
                     .Where(p => p.Description == desciption)
-                    .OrderBy(o => o.PossibleOptions)
                     .FirstOrDefaultAsync();
             }
             catch (Exception exception)

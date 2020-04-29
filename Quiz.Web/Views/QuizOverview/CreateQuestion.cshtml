@@ -1,0 +1,49 @@
+﻿@model Quiz.Web.ViewModels.Question_VM
+
+@{
+    ViewData["Title"] = "CreateQuestion";
+}
+
+<h1>CreateQuestion</h1>
+
+<h4>Question_VM</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateQuestion" enctype="multipart/form-data">
+            @Html.HiddenFor(m => m.QuizId)
+            @Html.HiddenFor(m => m.OptionCount)
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageString" class="control-label"></label>
+                <input asp-for="ImageString" type="file"/>
+                <span asp-validation-for="ImageString" class="text-danger"></span>
+            </div>
+            @for (int i = 0; i < Model.OptionCount; i++)
+            {
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label">Option @(i+1)</label>
+                    <input asp-for="OptionDescriptions[i]" class="form-control" />
+                    <span asp-validation-for="OptionDescriptions[i]" class="text-danger"></span>
+                </div>
+                @Html.CheckBoxFor(model => model.OptionAnswers[i], new { @class = "form-control" })
+            }
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                @*<button class="btn btn-primary" type="submit" asp-action="CreateQuestion">Save</button>*@
+                <button class="btn btn-primary" type="submit" asp-action="AddOption">Add another option</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Questions", new { id = ViewBag.quizId })
+</div>
+

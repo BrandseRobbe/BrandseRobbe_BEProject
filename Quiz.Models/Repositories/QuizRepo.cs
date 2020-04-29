@@ -21,6 +21,7 @@ namespace Quiz.Models.Repositories
         {
             return await context.Quizzes.OrderBy(e => e.Name).ToListAsync();
         }
+
         public async Task<QuizClass> GetQuizByIdAsync(Guid id)
         {
             try
@@ -52,6 +53,7 @@ namespace Quiz.Models.Repositories
             {
                 List<Question> questions = new List<Question>();
                 var result = await context.QuizQuestions.Include(t => t.Question)
+                    .ThenInclude(q=>q.PossibleOptions)
                     .Where(e => e.QuizId == quizId)
                     .ToListAsync();
                 if (result == null)
@@ -70,6 +72,7 @@ namespace Quiz.Models.Repositories
                 throw e;
             }
         }
+
         public async Task<QuizQuestions> AddQuestionToQuizAsync(Guid quizId, Guid questionId)
         {
             try
@@ -96,8 +99,7 @@ namespace Quiz.Models.Repositories
                 return null;
             }
         }
-
-
+        
         public async Task<QuizClass> Create(QuizClass quiz)
         {
             try
@@ -112,6 +114,7 @@ namespace Quiz.Models.Repositories
                 return null;
             }
         }
+       
         public async Task Delete(Guid quizId)
         {
             try
@@ -131,6 +134,7 @@ namespace Quiz.Models.Repositories
             }
             return;
         }
+      
         public async Task<QuizClass> Update(QuizClass quiz)
         {
             try
@@ -145,6 +149,21 @@ namespace Quiz.Models.Repositories
                 return null;
             }
         }
+
+        public async Task<Guid?> GetQuizIdFromQuestionId(Guid id)
+        {
+            try
+            {
+                QuizQuestions quizQuestion = context.QuizQuestions.Where(e => e.QuestionId == id).FirstOrDefault();
+                return quizQuestion.QuizId;
+            }
+            catch (Exception exc)
+            {
+                Console.WriteLine(exc.Message);
+                return null;
+            }
+        }
+
 
         //Helpers of extra's --------------------------
         public async Task<bool> QuizExists(Guid id)

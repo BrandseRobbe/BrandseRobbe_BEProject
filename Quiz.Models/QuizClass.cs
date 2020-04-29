@@ -14,6 +14,7 @@ namespace Quiz.Models
         //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid QuizId { get; set; }  = Guid.NewGuid();
         public int Difficulty { get; set; }
+        public string Description { get; set; }
         [Required]
         public string Name { get; set; }
 

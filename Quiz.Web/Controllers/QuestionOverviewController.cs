@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,6 +12,7 @@ using Quiz.Models.Repositories;
 
 namespace Quiz.Web.Controllers
 {
+    [Authorize(Roles = "Creator")]
     public class QuestionOverviewController : Controller
     {
         private readonly IQuestionRepo questionRepo;
@@ -22,14 +24,12 @@ namespace Quiz.Web.Controllers
             this.quizRepo = quizRepo;
         }
 
-        // GET: QuestionOverview
         public async Task<ActionResult> Index()
         {
             var questions = await questionRepo.GetAllQuestionsAsync();
             return View(questions);
         }
 
-        // GET: QuestionOverview/Details/5
         public async Task<ActionResult> Details(Guid questionId)
         {
             var question = await questionRepo.GetQuestionByIdAsync(questionId);

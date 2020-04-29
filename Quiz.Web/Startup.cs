@@ -55,6 +55,7 @@ namespace Quiz.Web
             //services.AddScoped<IUserRepo, UserRepo>();
             services.AddScoped<IQuizRepo, QuizRepo>();
             services.AddScoped<IQuestionRepo, QuestionRepo>();
+            services.AddScoped<IGameRepo, GameRepo>();
 
         }
 
@@ -89,7 +90,7 @@ namespace Quiz.Web
             });
             //QuizDbContextExtensions.SeedQuiz(quizRepo, questionRepo).Wait();
 
-            //QuizDbContextExtensions.SeedRoles(roleMgr).Wait();
+            QuizDbContextExtensions.SeedRoles(roleMgr).Wait();
             QuizDbContextExtensions.SeedUsers(userMgr).Wait();
             //QuizDbContextExtensions.SeedData(context).Wait();
         }

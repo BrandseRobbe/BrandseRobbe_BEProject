@@ -21,6 +21,7 @@ namespace Quiz.Web.Data
         public virtual DbSet<QuizClass> Quizzes { get; set; }
         public virtual DbSet<Question> Questions { get; set; }
         public virtual DbSet<Option> Options { get; set; }
+        public virtual DbSet<Game> Games { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<QuizQuestions> QuizQuestions { get; set; }
 

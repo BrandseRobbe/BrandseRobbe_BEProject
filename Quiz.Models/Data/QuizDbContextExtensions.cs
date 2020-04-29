@@ -26,7 +26,9 @@ namespace Quiz.Models.Data
                 {
                     QuizClass newQuiz = new QuizClass()
                     {
-                        Name = quizName
+                        Name = quizName,
+                        Difficulty = 2,
+                        Description = "A quiz about " + quizName
                     };
                     await quizRepo.Create(newQuiz);
                 }

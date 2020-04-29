@@ -12,6 +12,7 @@ namespace Quiz.Models.Repositories
         Task<IEnumerable<QuizClass>> GetAllQuizzesAsync();
         Task<QuizClass> GetQuizByIdAsync(Guid id);
         Task<QuizClass> GetQuizByNameAsync(string quizName);
+        Task<Guid?> GetQuizIdFromQuestionId(Guid id);
         Task<IEnumerable<Question>> GetQuizQuestionsAsync(Guid quizId);
         Task<bool> QuizExists(Guid id);
         Task<QuizClass> Update(QuizClass quiz);

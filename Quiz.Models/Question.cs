@@ -19,6 +19,8 @@ namespace Quiz.Models
         [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:dd/MM/yyyy HH:mm}")]
         public DateTime DateCreated { get; set; } = DateTime.Now;
 
+        public byte[] ImageData{ get; set; }
+
         public virtual ICollection<Option> PossibleOptions { get; set; }
     }
 }

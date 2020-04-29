@@ -22,13 +22,19 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Player"))
+                        {
+                        <li class="nav-item"><a class="nav-link text-dark" asp-controller="Game" asp-action="Index">Play quiz</a></li>
+                        }
                         @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                         {
                             <li class="nav-item"><a class="nav-link text-dark" asp-controller="Admin" asp-action="IndexUsers">User Management</a></li>
-                            <liclass="nav-item"><a class="nav-link text-dark" asp-controller="Admin" asp-action="IndexRoles"> Role Management</a></liclass="nav-item">
+                            <li class="nav-item"><a class="nav-link text-dark" asp-controller="Admin" asp-action="IndexRoles"> Role Management</a></li>
+                        }
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Creator"))
+                        {
+                            <li class="nav-item"><a class="nav-link text-dark" asp-controller="QuizOverview" asp-action="Index">Quiz Overview</a></li>
+                            <li class="nav-item"><a class="nav-link text-dark" asp-controller="QuestionOverview" asp-action="Index">Question Overview</a></li>
                         }
                     </ul>
                 </div>

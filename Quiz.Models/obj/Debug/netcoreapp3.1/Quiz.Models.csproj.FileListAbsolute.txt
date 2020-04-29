@@ -25,3 +25,4 @@ C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\B
 C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\Quiz.Models\obj\Debug\netcoreapp3.1\Quiz.Models.dll
 C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\Quiz.Models\obj\Debug\netcoreapp3.1\Quiz.Models.pdb
 C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\Quiz.Models\obj\Debug\netcoreapp3.1\Quiz.Models.genruntimeconfig.cache
+C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\Quiz.Models\obj\Debug\netcoreapp3.1\Quiz.Models.csprojAssemblyReference.cache

@@ -59,7 +59,7 @@ namespace Quiz.API
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1.0", new OpenApiInfo { Title = "ToDo_API", Version = "v1.0" });
+                c.SwaggerDoc("v1.0", new OpenApiInfo { Title = "Quiz_API", Version = "v1.0" });
             });
         }
 
@@ -80,6 +80,14 @@ namespace Quiz.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseSwagger(); //enable swagger
+            app.UseSwaggerUI(c =>
+            {
+                c.RoutePrefix = "swagger"; //path naar de UI pagina: /swagger/index.html
+                c.SwaggerEndpoint("/swagger/v1.0/swagger.json", "Quiz_API v1.0");
+                //c.RouteTemplate = "swagger/{documentName}/swagger.json";
             });
         }
     }

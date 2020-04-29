@@ -427,3 +427,13 @@ C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\B
 C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\Quiz.Web\obj\Debug\netcoreapp3.1\Razor\Views\Admin\User.cshtml.g.cs
 C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\Quiz.Web\obj\Debug\netcoreapp3.1\Razor\Views\Admin\DeleteUser.cshtml.g.cs
 C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\Quiz.Web\obj\Debug\netcoreapp3.1\Razor\Views\Admin\EditRoles.cshtml.g.cs
+C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\Quiz.Web\obj\Debug\netcoreapp3.1\Razor\Views\Game\Index.cshtml.g.cs
+C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\Quiz.Web\obj\Debug\netcoreapp3.1\Razor\Views\Game\Play.cshtml.g.cs
+C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\Quiz.Web\obj\Debug\netcoreapp3.1\Razor\Views\Game\Finished.cshtml.g.cs
+C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\Quiz.Web\obj\Debug\netcoreapp3.1\Razor\Views\Game\Scoreboard.cshtml.g.cs
+C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\Quiz.Web\obj\Debug\netcoreapp3.1\Razor\Views\QuizOverview\CreateQuiz.cshtml.g.cs
+C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\Quiz.Web\obj\Debug\netcoreapp3.1\Razor\Views\QuizOverview\EditQuiz.cshtml.g.cs
+C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\Quiz.Web\obj\Debug\netcoreapp3.1\Razor\Views\QuizOverview\DeleteQuiz.cshtml.g.cs
+C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\Quiz.Web\obj\Debug\netcoreapp3.1\Razor\Views\QuizOverview\QuestionDetails.cshtml.g.cs
+C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\Quiz.Web\obj\Debug\netcoreapp3.1\Razor\Views\QuizOverview\CreateQuestion.cshtml.g.cs
+C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\Quiz.Web\obj\Debug\netcoreapp3.1\Razor\Views\QuizOverview\DeleteQuestion.cshtml.g.cs
