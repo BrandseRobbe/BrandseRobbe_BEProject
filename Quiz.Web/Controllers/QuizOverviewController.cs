@@ -201,7 +201,7 @@ namespace Quiz.Web.Controllers
                     ModelState.AddModelError("", "This description is already being used by another question");
                     return View(model);
                 }
-                
+
                 List<Option> options = new List<Option>();
                 int corrects = 0;
                 for (int i = 0; i < model.OptionCount; i++)
@@ -279,7 +279,7 @@ namespace Quiz.Web.Controllers
             {
                 //quizid ophalen voor redirect
                 Guid? quizId = await quizRepo.GetQuizIdFromQuestionId(question.QuestionId);
-                if(quizId == null)
+                if (quizId == null)
                 {
                     return RedirectToAction("Index");
                 }
@@ -293,6 +293,107 @@ namespace Quiz.Web.Controllers
             catch (Exception exc)
             {
                 ModelState.AddModelError("", "Delete failed");
+                return View();
+            }
+        }
+
+        public async Task<ActionResult> EditQuestion(Guid questionId, Guid quizId)
+        {
+            ViewBag.quizId = quizId;
+            Question question = await questionRepo.GetQuestionByIdAsync(questionId);
+            List<string> descripts = new List<string>();
+            List<bool> answers = new List<bool>();
+            foreach(Option option in question.PossibleOptions)
+            {
+                descripts.Add(option.OptionDescription);
+                answers.Add(option.CorrectAnswer);
+            }
+            Question_VM vm = new Question_VM()
+            {
+                QuizId = quizId,
+                Description = question.Description,
+                OptionDescriptions = descripts,
+                OptionAnswers = answers,
+                ImageData = question.ImageData,
+                OptionCount = descripts.Count()
+            };
+            return View(vm);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditQuestion(IFormCollection collection, Question_VM model)
+        {
+            try
+            {
+                if (!ModelState.IsValid) //validatie error
+                {
+                    return BadRequest();
+                }
+                ViewBag.quizId = model.QuizId;
+                if (await quizRepo.GetQuizByIdAsync(model.QuizId) == null)
+                {
+                    return BadRequest("Can't add question to nonexistent quiz");
+                }
+                if (await questionRepo.GetQuestionByDescriptionAsync(model.Description) != null)
+                {
+                    ModelState.AddModelError("", "This description is already being used by another question");
+                    return View(model);
+                }
+
+                List<Option> options = new List<Option>();
+                int corrects = 0;
+                for (int i = 0; i < model.OptionCount; i++)
+                {
+                    if (!string.IsNullOrWhiteSpace(model.OptionDescriptions[i]))
+                    {
+                        Option option = new Option()
+                        {
+                            OptionDescription = model.OptionDescriptions[i],
+                            CorrectAnswer = model.OptionAnswers[i]
+                        };
+                        options.Add(option);
+                        if (model.OptionAnswers[i]) corrects += 1;
+                    }
+                }
+                if (options.Count() < 2)
+                {
+                    ModelState.AddModelError("", "Add at least 2 Options");
+                    return View(model);
+                }
+                if (corrects == 0)
+                {
+                    ModelState.AddModelError("", "Add at least 1 right answer");
+                    return View(model);
+                }
+
+                Question question = new Question()
+                {
+                    Description = model.Description,
+                    PossibleOptions = options
+                };
+                if (model.ImageString != null)
+                {
+                    byte[] b;
+                    using (BinaryReader br = new BinaryReader(model.ImageString.OpenReadStream()))
+                    {
+                        b = br.ReadBytes((int)model.ImageString.OpenReadStream().Length);
+                        question.ImageData = b;
+                    }
+                }
+                if (await questionRepo.Create(question) == null)
+                {
+                    throw new Exception("Couldn't create the quiz");
+                }
+                if (await quizRepo.AddQuestionToQuizAsync(model.QuizId, question.QuestionId) == null)
+                {
+                    throw new Exception("Couldn't create the quiz");
+                }
+                return RedirectToAction("Questions", new { id = model.QuizId });
+            }
+            catch (Exception exc)
+            {
+                Console.WriteLine("Create is giving an error: " + exc.Message);
+                ModelState.AddModelError("", "Create actie is failed try again");
                 return View();
             }
         }

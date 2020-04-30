@@ -19,28 +19,56 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
                         @if (User.Identity.IsAuthenticated && User.IsInRole("Player"))
                         {
                             <li class="nav-item"><a class="nav-link text-dark" asp-controller="Game" asp-action="Index">Play quiz</a></li>
                             <li class="nav-item"><a class="nav-link text-dark" asp-controller="Game" asp-action="Scoreboard">Scores</a></li>
+                        }
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Creator"))
+                        {
+                            <li class="nav-item"><a class="nav-link text-dark" asp-controller="QuizOverview" asp-action="Index">Quiz Overview</a></li>
                         }
                         @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                         {
                             <li class="nav-item"><a class="nav-link text-dark" asp-controller="Admin" asp-action="IndexUsers">User Management</a></li>
                             <li class="nav-item"><a class="nav-link text-dark" asp-controller="Admin" asp-action="IndexRoles"> Role Management</a></li>
                         }
-                        @if (User.Identity.IsAuthenticated && User.IsInRole("Creator"))
-                        {
-                            <li class="nav-item"><a class="nav-link text-dark" asp-controller="QuizOverview" asp-action="Index">Quiz Overview</a></li>
-                            <li class="nav-item"><a class="nav-link text-dark" asp-controller="QuestionOverview" asp-action="Index">Question Overview</a></li>
-                        }
+
                     </ul>
                 </div>
             </div>
         </nav>
+        @*<nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Quiz.Web</a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarColor03">
+                <ul class="navbar-nav mr-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Player"))
+                    {
+                        <li class="nav-item"><a class="nav-link" asp-controller="Game" asp-action="Index">Play quiz</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Game" asp-action="Scoreboard">Scores</a></li>
+                    }
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Creator"))
+                    {
+                        <li class="nav-item"><a class="nav-link" asp-controller="QuizOverview" asp-action="Index">Quiz Overview</a></li>
+                    }
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item"><a class="nav-link" asp-controller="Admin" asp-action="IndexUsers">User Management</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Admin" asp-action="IndexRoles"> Role Management</a></li>
+                    }
+                </ul>
+            </div>
+        </nav>*@
+
     </header>
     <div class="container">
         <main role="main" class="pb-3">

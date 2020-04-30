@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,8 +13,9 @@ namespace Quiz.Web.ViewModels
         public string Description { get; set; }
         public List<string> OptionDescriptions { get; set; } = new List<string>();
         public List<bool> OptionAnswers { get; set; } = new List<bool>();
+        [Display(Name = "Image: ")]
         public IFormFile ImageString { get; set; }
         public int OptionCount { get; set; }
-        //public IDictionary<string, bool> Options { get; set; } = new Dictionary<string, bool>();
+        public byte[] ImageData { get; set; }
     }
 }

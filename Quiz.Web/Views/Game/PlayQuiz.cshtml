@@ -1,7 +1,7 @@
 ﻿@model Quiz.Web.ViewModels.Game_VM
 
 @{
-    ViewData["Title"] = "Play";
+    ViewData["Title"] = "PlayQuiz";
     var imgSrc = "";
     @if (Model.ImageData != null)
     {
@@ -10,17 +10,14 @@
     }
 }
 
-<h1>Play</h1>
-
-<h4>Game_VM</h4>
+<h1>PlayQuiz</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <img style="max-height: 300px; max-width: 300px;" src="@imgSrc" />
         <p>what it needs to be: @ViewBag.questionId</p>
-        <p>whatis in the model: @Model.QuestionId</p>
         <form asp-action="Play">
-            @Html.HiddenFor(model => model.GameId)
+            <h2>@Html.DisplayFor(model => model.QuestionId)</h2>
             <h2>@Html.DisplayFor(model => model.QuestionDescription)</h2>
             <div class="form-group">
                 <label asp-for="QuestionId" class="control-label"></label>
@@ -36,13 +33,7 @@
                     </div>
                 </div>
             }
-            <input type="hidden" id="vraagId" name="vraagId" value="@Model.QuestionId" />
-            <input type="hidden" id="vraagNr" name="vraagNr" value="@Model.questionNr" />
-
-            @*@Html.Hidden("vraagNr", new { nr = @ViewBag.questionNr })
-            @Html.Hidden("vraagId", new { id = @ViewBag.QuestionId})
-            @Html.Hidden("vraagId2", new { @ViewBag.QuestionId })*@
-            
+            @Html.Hidden("vraagId", new { @ViewBag.questionId })
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
@@ -53,4 +44,3 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-

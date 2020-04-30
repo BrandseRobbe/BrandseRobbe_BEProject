@@ -18,7 +18,7 @@
     "Quiz.Web": {
         "commandName": "Project",
         "launchBrowser": true,
-        "launchUrl": "Game",
+        "launchUrl": "QuizOverview/EditQuestion?questionId=57de7d17-3645-4639-ae0f-6b7107ba1704&quizId=8b63ee9a-b8a8-4064-abaa-d6c9ebbb876b",
         "applicationUrl": "https://localhost:5001;http://localhost:5000",
         "environmentVariables": {
             "ASPNETCORE_ENVIRONMENT": "Development"

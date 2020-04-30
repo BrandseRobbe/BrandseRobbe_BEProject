@@ -39,7 +39,7 @@ namespace Quiz.Web.Controllers
         {
             var scores = await gameRepo.GetAllFinishedGamesAsync();
             List<Scoreboard_VM> scoreboard = new List<Scoreboard_VM>();
-            foreach(Game score in scores)
+            foreach (Game score in scores)
             {
                 QuizClass quiz = await quizRepo.GetQuizByIdAsync(score.QuizId);
                 User user = await userMgr.FindByIdAsync(score.UserId);
@@ -57,7 +57,7 @@ namespace Quiz.Web.Controllers
             return View(scoreboard);
         }
 
-        public Game_VM convertGame(Guid gameid, Question question)
+        public Game_VM convertGame(Guid gameid, Question question, int questionNr)
         {
             Dictionary<string, bool> options = new Dictionary<string, bool>();
             foreach (Option option in question.PossibleOptions)
@@ -70,7 +70,8 @@ namespace Quiz.Web.Controllers
                 QuestionDescription = question.Description,
                 QuestionId = question.QuestionId,
                 Options = options,
-                ImageData = question.ImageData
+                ImageData = question.ImageData,
+                questionNr = questionNr
             };
             return gamevm;
         }
@@ -89,8 +90,9 @@ namespace Quiz.Web.Controllers
             {
                 return BadRequest("Can't create the quiz");
             }
-            Game_VM vm = convertGame(game.GameId, questions[0]);
-            
+            Game_VM vm = convertGame(game.GameId, questions[0], 0);
+
+            ViewBag.questionNr = vm.questionNr;
             ViewBag.questionId = vm.QuestionId;
             return View("Play", vm);
         }
@@ -98,9 +100,11 @@ namespace Quiz.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> Play(Game_VM vm, IFormCollection collection)
         {
+            Guid vraagId = new Guid(collection["vraagId"].ToString());
+            int vraagNr = Int32.Parse(collection["vraagNr"].ToString());
             Game currentgame = await gameRepo.GetGameByIdAsync(vm.GameId);
-            Question currentquestion = await questionRepo.GetQuestionByIdAsync(vm.QuestionId);
-            
+            Question currentquestion = await questionRepo.GetQuestionByIdAsync(vraagId);
+
             // controleren of het antwoord juist was
             bool correct = true;
             foreach (Option option in currentquestion.PossibleOptions)
@@ -160,9 +164,11 @@ namespace Quiz.Web.Controllers
                 }
                 return View("Finished", finished_vm);
             }
-            Game_VM next_vm = convertGame(currentgame.GameId, nextQuestion);
+            vm = convertGame(currentgame.GameId, nextQuestion, vm.questionNr + 1);
+            
+            ViewBag.questionNr = vm.questionNr;
             ViewBag.questionId = nextQuestion.QuestionId;
-            return View("Play", next_vm);
+            return View("Play", vm);
         }
     }
 }
