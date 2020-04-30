@@ -99,7 +99,7 @@ namespace Quiz.Web.Controllers
                     ModelState.AddModelError("", "This name is already in use");
                     return View();
                 }
-                //eerst controleren of er een aanpassin gebeurt is
+                //eerst controleren of er een aanpassing gebeurt is
                 QuizClass original = await quizRepo.GetQuizByIdAsync(quiz.QuizId);
                 if (original.Name == quiz.Name && original.Description == quiz.Description && original.Difficulty == quiz.Difficulty)
                 {
@@ -244,11 +244,11 @@ namespace Quiz.Web.Controllers
                 }
                 if (await questionRepo.Create(question) == null)
                 {
-                    throw new Exception("Couldn't create the quiz");
+                    throw new Exception("Couldn't create the question");
                 }
                 if (await quizRepo.AddQuestionToQuizAsync(model.QuizId, question.QuestionId) == null)
                 {
-                    throw new Exception("Couldn't create the quiz");
+                    throw new Exception("Couldn't add the question to the quiz");
                 }
                 return RedirectToAction("Questions", new { id = model.QuizId });
             }
@@ -297,13 +297,20 @@ namespace Quiz.Web.Controllers
             }
         }
 
-        public async Task<ActionResult> EditQuestion(Guid questionId, Guid quizId)
+        public ActionResult AddOptionEdit(Question_VM model)
         {
-            ViewBag.quizId = quizId;
-            Question question = await questionRepo.GetQuestionByIdAsync(questionId);
+            ViewBag.quizId = model.QuizId;
+            model.OptionCount = model.OptionCount + 1;
+            model.OptionAnswers.Add(false);
+            model.OptionDescriptions.Add("");
+            return View("EditQuestion", model);
+        }
+
+        public Question_VM ConvertToVM(Question question, Guid quizId)
+        {
             List<string> descripts = new List<string>();
             List<bool> answers = new List<bool>();
-            foreach(Option option in question.PossibleOptions)
+            foreach (Option option in question.PossibleOptions)
             {
                 descripts.Add(option.OptionDescription);
                 answers.Add(option.CorrectAnswer);
@@ -311,12 +318,20 @@ namespace Quiz.Web.Controllers
             Question_VM vm = new Question_VM()
             {
                 QuizId = quizId,
+                QuestionId = question.QuestionId,
                 Description = question.Description,
                 OptionDescriptions = descripts,
                 OptionAnswers = answers,
                 ImageData = question.ImageData,
                 OptionCount = descripts.Count()
             };
+            return vm;
+        }
+        public async Task<ActionResult> EditQuestion(Guid questionId, Guid quizId)
+        {
+            ViewBag.quizId = quizId;
+            Question question = await questionRepo.GetQuestionByIdAsync(questionId);
+            Question_VM vm = ConvertToVM(question, quizId);
             return View(vm);
         }
         [HttpPost]
@@ -334,12 +349,19 @@ namespace Quiz.Web.Controllers
                 {
                     return BadRequest("Can't add question to nonexistent quiz");
                 }
-                if (await questionRepo.GetQuestionByDescriptionAsync(model.Description) != null)
+                Question originalquestion = await questionRepo.GetQuestionByIdAsync(model.QuestionId);
+                Question_VM original_VM = ConvertToVM(originalquestion, model.QuizId);
+                //controleren of er wel aanpassingen gebeurt zijn
+                if (original_VM.QuizId == model.QuizId && original_VM.QuestionId == model.QuestionId && original_VM.Description == model.Description && original_VM.OptionDescriptions.SequenceEqual(model.OptionDescriptions) && original_VM.OptionAnswers.SequenceEqual(model.OptionAnswers) && original_VM.ImageString == model.ImageString && original_VM.OptionCount == model.OptionCount && original_VM.ImageData == model.ImageData )
+                {
+                    //er zijn geen aanpassingen gebeurt dus keer gewoon terug.
+                    return RedirectToAction("Questions", new { id = model.QuizId });
+                }
+                if (await questionRepo.GetQuestionByDescriptionAsync(model.Description) != null && originalquestion.Description != model.Description)
                 {
                     ModelState.AddModelError("", "This description is already being used by another question");
                     return View(model);
                 }
-
                 List<Option> options = new List<Option>();
                 int corrects = 0;
                 for (int i = 0; i < model.OptionCount; i++)
@@ -365,28 +387,20 @@ namespace Quiz.Web.Controllers
                     ModelState.AddModelError("", "Add at least 1 right answer");
                     return View(model);
                 }
-
-                Question question = new Question()
-                {
-                    Description = model.Description,
-                    PossibleOptions = options
-                };
+                originalquestion.Description = model.Description;
+                originalquestion.PossibleOptions = options;
                 if (model.ImageString != null)
                 {
                     byte[] b;
                     using (BinaryReader br = new BinaryReader(model.ImageString.OpenReadStream()))
                     {
                         b = br.ReadBytes((int)model.ImageString.OpenReadStream().Length);
-                        question.ImageData = b;
+                        originalquestion.ImageData = b;
                     }
                 }
-                if (await questionRepo.Create(question) == null)
+                if (await questionRepo.Update(originalquestion) == null)
                 {
-                    throw new Exception("Couldn't create the quiz");
-                }
-                if (await quizRepo.AddQuestionToQuizAsync(model.QuizId, question.QuestionId) == null)
-                {
-                    throw new Exception("Couldn't create the quiz");
+                    throw new Exception("Couldn't update the question");
                 }
                 return RedirectToAction("Questions", new { id = model.QuizId });
             }

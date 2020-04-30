@@ -94,5 +94,20 @@ namespace Quiz.Models.Repositories
             }
             return;
         }
+        public async Task<Question> Update(Question question)
+        {
+            try
+            {
+                context.Questions.Update(question);
+                await context.SaveChangesAsync();
+                return question;
+            }
+            catch (Exception exc)
+            {
+                Console.WriteLine(exc.Message);
+                return null;
+            }
+        }
+
     }
 }

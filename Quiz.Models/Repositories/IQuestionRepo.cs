@@ -11,5 +11,6 @@ namespace Quiz.Models.Repositories
         Task<IEnumerable<Question>> GetAllQuestionsAsync();
         Task<Question> GetQuestionByDescriptionAsync(string desciption);
         Task<Question> GetQuestionByIdAsync(Guid questionId);
+        Task<Question> Update(Question question);
     }
 }
