@@ -75,3 +75,37 @@ body {
     justify-content: space-between;
     flex-direction: column;
 }
+
+.o-hide-accessible {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+.c-option-hidden{
+    opacity: 0;
+}
+.card {
+    border-radius: 5px;
+}
+.c-option-hidden:checked + .card {
+    border-color: white;
+}
+.c-option-hidden + .card .card-body {
+    transition-duration: 0.2s;
+}
+.c-option-hidden + .card:hover {
+}
+.c-option-hidden + .card:hover .card-body {
+    border-radius: 5px;
+    box-shadow: inset 0px 0px 20px 0px rgb(164, 164, 164);
+}
+
+
+
+/*border-color: #e9ecef*/

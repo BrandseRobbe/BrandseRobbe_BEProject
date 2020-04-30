@@ -78,6 +78,10 @@ namespace Quiz.Web.Controllers
 
         public async Task<ActionResult> StartGame(Guid id)
         {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //alle oude foutief afgesloten quizzen verwijderen
+            await gameRepo.RemoveUsersActiveGames(userId);
+            //quiz starten
             var q = await quizRepo.GetQuizQuestionsAsync(id);
             List<Question> questions = q.Cast<Question>().ToList();
             if (questions.Count() == 0)
@@ -85,7 +89,7 @@ namespace Quiz.Web.Controllers
                 return BadRequest("Cant find the quiz");
             }
 
-            Game game = new Game() { QuizId = id, UserId = User.FindFirstValue(ClaimTypes.NameIdentifier) };
+            Game game = new Game() { QuizId = id, UserId = userId };
             if (await gameRepo.Create(game) == null)
             {
                 return BadRequest("Can't create the quiz");

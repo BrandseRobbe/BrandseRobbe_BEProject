@@ -42,6 +42,15 @@ namespace Quiz.Models.Repositories
                 return null;
             }
         }
+        public async Task RemoveUsersActiveGames(string userId)
+        {
+            var activegames = context.Games.Where(e => e.UserId == userId && e.TimeFinished == null);
+            foreach(var game in activegames)
+            {
+                context.Games.Remove(game);
+            }
+            context.SaveChanges();
+        }
         public async Task<Game> Create(Game game)
         {
             try

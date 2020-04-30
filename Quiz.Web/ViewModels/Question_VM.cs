@@ -16,7 +16,6 @@ namespace Quiz.Web.ViewModels
         public List<bool> OptionAnswers { get; set; } = new List<bool>();
         [Display(Name = "Image: ")]
         public IFormFile ImageString { get; set; }
-        public int OptionCount { get; set; }
         public byte[] ImageData { get; set; }
     }
 }

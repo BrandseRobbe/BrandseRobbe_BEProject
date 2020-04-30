@@ -11,40 +11,34 @@
 }
 
 <h1>Play</h1>
-
-<h4>Game_VM</h4>
-<hr />
 <div class="row">
     <div class="col-md-4">
-        <img style="max-height: 300px; max-width: 300px;" src="@imgSrc" />
+        <img style="max-height: 300px;" src="@imgSrc" />
         <form asp-action="Play">
             @Html.HiddenFor(model => model.GameId)
             <h2>@Html.DisplayFor(model => model.QuestionDescription)</h2>
-            <div class="form-group">
-                <label asp-for="QuestionId" class="control-label"></label>
-                <input asp-for="QuestionId" class="form-control" />
-                <span asp-validation-for="QuestionId" class="text-danger"></span>
-            </div>
             @foreach (KeyValuePair<string, bool> item in Model.Options)
             {
-                <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
+                @Html.CheckBoxFor(model => model.Options[item.Key], new { @class = "o-hide-accessible c-option-hidden" })
+                @*<label asp-for="Options[item.Key]"></label>*@
+                <label asp-for="Options[item.Key]" class="card text-white bg-primary mb-3" style="max-width: 20rem;">
                     <div class="card-body">
                         <p class="card-text">@item.Key</p>
-                        @Html.CheckBoxFor(model => model.Options[item.Key])
                     </div>
-                </div>
+                </label>
+                @*<div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
+                    <div class="card-body">
+                        <p class="card-text">@item.Key</p>
+                    </div>
+                </div>*@
             }
             <input type="hidden" id="vraagId" name="vraagId" value="@Model.QuestionId" />
             <input type="hidden" id="vraagNr" name="vraagNr" value="@Model.questionNr" />
 
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Next question" class="btn btn-primary" />
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 

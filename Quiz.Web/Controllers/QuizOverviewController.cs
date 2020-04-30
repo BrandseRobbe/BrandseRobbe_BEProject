@@ -169,14 +169,16 @@ namespace Quiz.Web.Controllers
             vm.OptionAnswers.Add(false);
             vm.OptionDescriptions.Add("");
             vm.OptionAnswers.Add(false);
-            vm.OptionCount = 2;
+            //vm.OptionCount = 2;
 
             return View(vm);
         }
-        public ActionResult AddOption(Question_VM model)
+        [HttpPost]
+        public ActionResult AddOption(IFormCollection collection, Question_VM model)
         {
             ViewBag.quizId = model.QuizId;
-            model.OptionCount = model.OptionCount + 1;
+            //int aantalOpties = Int32.Parse(collection["aantalOpties"].ToString());
+            //model.OptionCount = model.OptionDescriptions.Count() + 1;
             model.OptionAnswers.Add(false);
             model.OptionDescriptions.Add("");
             return View("CreateQuestion", model);
@@ -204,7 +206,7 @@ namespace Quiz.Web.Controllers
 
                 List<Option> options = new List<Option>();
                 int corrects = 0;
-                for (int i = 0; i < model.OptionCount; i++)
+                for (int i = 0; i < model.OptionDescriptions.Count(); i++)
                 {
                     if (!string.IsNullOrWhiteSpace(model.OptionDescriptions[i]))
                     {
@@ -297,119 +299,120 @@ namespace Quiz.Web.Controllers
             }
         }
 
-        public ActionResult AddOptionEdit(Question_VM model)
-        {
-            ViewBag.quizId = model.QuizId;
-            model.OptionCount = model.OptionCount + 1;
-            model.OptionAnswers.Add(false);
-            model.OptionDescriptions.Add("");
-            return View("EditQuestion", model);
-        }
-
-        public Question_VM ConvertToVM(Question question, Guid quizId)
-        {
-            List<string> descripts = new List<string>();
-            List<bool> answers = new List<bool>();
-            foreach (Option option in question.PossibleOptions)
-            {
-                descripts.Add(option.OptionDescription);
-                answers.Add(option.CorrectAnswer);
-            }
-            Question_VM vm = new Question_VM()
-            {
-                QuizId = quizId,
-                QuestionId = question.QuestionId,
-                Description = question.Description,
-                OptionDescriptions = descripts,
-                OptionAnswers = answers,
-                ImageData = question.ImageData,
-                OptionCount = descripts.Count()
-            };
-            return vm;
-        }
-        public async Task<ActionResult> EditQuestion(Guid questionId, Guid quizId)
-        {
-            ViewBag.quizId = quizId;
-            Question question = await questionRepo.GetQuestionByIdAsync(questionId);
-            Question_VM vm = ConvertToVM(question, quizId);
-            return View(vm);
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EditQuestion(IFormCollection collection, Question_VM model)
-        {
-            try
-            {
-                if (!ModelState.IsValid) //validatie error
-                {
-                    return BadRequest();
-                }
-                ViewBag.quizId = model.QuizId;
-                if (await quizRepo.GetQuizByIdAsync(model.QuizId) == null)
-                {
-                    return BadRequest("Can't add question to nonexistent quiz");
-                }
-                Question originalquestion = await questionRepo.GetQuestionByIdAsync(model.QuestionId);
-                Question_VM original_VM = ConvertToVM(originalquestion, model.QuizId);
-                //controleren of er wel aanpassingen gebeurt zijn
-                if (original_VM.QuizId == model.QuizId && original_VM.QuestionId == model.QuestionId && original_VM.Description == model.Description && original_VM.OptionDescriptions.SequenceEqual(model.OptionDescriptions) && original_VM.OptionAnswers.SequenceEqual(model.OptionAnswers) && original_VM.ImageString == model.ImageString && original_VM.OptionCount == model.OptionCount && original_VM.ImageData == model.ImageData )
-                {
-                    //er zijn geen aanpassingen gebeurt dus keer gewoon terug.
-                    return RedirectToAction("Questions", new { id = model.QuizId });
-                }
-                if (await questionRepo.GetQuestionByDescriptionAsync(model.Description) != null && originalquestion.Description != model.Description)
-                {
-                    ModelState.AddModelError("", "This description is already being used by another question");
-                    return View(model);
-                }
-                List<Option> options = new List<Option>();
-                int corrects = 0;
-                for (int i = 0; i < model.OptionCount; i++)
-                {
-                    if (!string.IsNullOrWhiteSpace(model.OptionDescriptions[i]))
-                    {
-                        Option option = new Option()
-                        {
-                            OptionDescription = model.OptionDescriptions[i],
-                            CorrectAnswer = model.OptionAnswers[i]
-                        };
-                        options.Add(option);
-                        if (model.OptionAnswers[i]) corrects += 1;
-                    }
-                }
-                if (options.Count() < 2)
-                {
-                    ModelState.AddModelError("", "Add at least 2 Options");
-                    return View(model);
-                }
-                if (corrects == 0)
-                {
-                    ModelState.AddModelError("", "Add at least 1 right answer");
-                    return View(model);
-                }
-                originalquestion.Description = model.Description;
-                originalquestion.PossibleOptions = options;
-                if (model.ImageString != null)
-                {
-                    byte[] b;
-                    using (BinaryReader br = new BinaryReader(model.ImageString.OpenReadStream()))
-                    {
-                        b = br.ReadBytes((int)model.ImageString.OpenReadStream().Length);
-                        originalquestion.ImageData = b;
-                    }
-                }
-                if (await questionRepo.Update(originalquestion) == null)
-                {
-                    throw new Exception("Couldn't update the question");
-                }
-                return RedirectToAction("Questions", new { id = model.QuizId });
-            }
-            catch (Exception exc)
-            {
-                Console.WriteLine("Create is giving an error: " + exc.Message);
-                ModelState.AddModelError("", "Create actie is failed try again");
-                return View();
-            }
-        }
+        //public ActionResult AddOptionEdit(Question_VM model)
+        //{
+        //    ViewBag.quizId = model.QuizId;
+        //    model.OptionCount = model.OptionCount + 1;
+        //    model.OptionAnswers.Add(false);
+        //    model.OptionDescriptions.Add("");
+        //    return View("EditQuestion", model);
+        //}
+        //public Question_VM ConvertToVM(Question question, Guid quizId)
+        //{
+        //    List<string> descripts = new List<string>();
+        //    List<bool> answers = new List<bool>();
+        //    foreach (Option option in question.PossibleOptions)
+        //    {
+        //        descripts.Add(option.OptionDescription);
+        //        answers.Add(option.CorrectAnswer);
+        //    }
+        //    Question_VM vm = new Question_VM()
+        //    {
+        //        QuizId = quizId,
+        //        QuestionId = question.QuestionId,
+        //        Description = question.Description,
+        //        OptionDescriptions = descripts,
+        //        OptionAnswers = answers,
+        //        ImageData = question.ImageData,
+        //        OptionCount = descripts.Count()
+        //    };
+        //    return vm;
+        //}
+        //public async Task<ActionResult> EditQuestion(Guid questionId, Guid quizId)
+        //{
+        //    ViewBag.quizId = quizId;
+        //    Question question = await questionRepo.GetQuestionByIdAsync(questionId);
+        //    Question_VM vm = ConvertToVM(question, quizId);
+        //    return View(vm);
+        //}
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> EditQuestion(IFormCollection collection, Question_VM model)
+        //{
+        //    try
+        //    {
+        //        if (!ModelState.IsValid) //validatie error
+        //        {
+        //            return BadRequest();
+        //        }
+        //        ViewBag.quizId = model.QuizId;
+        //        if (await quizRepo.GetQuizByIdAsync(model.QuizId) == null)
+        //        {
+        //            return BadRequest("Can't add question to nonexistent quiz");
+        //        }
+        //        Question originalquestion = await questionRepo.GetQuestionByIdAsync(model.QuestionId);
+        //        Question_VM original_VM = ConvertToVM(originalquestion, model.QuizId);
+        //        //controleren of er wel aanpassingen gebeurt zijn
+        //        if (original_VM.QuizId == model.QuizId && original_VM.QuestionId == model.QuestionId && original_VM.Description == model.Description && original_VM.OptionDescriptions.SequenceEqual(model.OptionDescriptions) && original_VM.OptionAnswers.SequenceEqual(model.OptionAnswers) && original_VM.ImageString == model.ImageString && original_VM.OptionCount == model.OptionCount && original_VM.ImageData == model.ImageData )
+        //        {
+        //            //er zijn geen aanpassingen gebeurt dus keer gewoon terug.
+        //            return RedirectToAction("Questions", new { id = model.QuizId });
+        //        }
+        //        if (await questionRepo.GetQuestionByDescriptionAsync(model.Description) != null && originalquestion.Description != model.Description)
+        //        {
+        //            ModelState.AddModelError("", "This description is already being used by another question");
+        //            return View(model);
+        //        }
+        //        List<Option> options = new List<Option>();
+        //        int corrects = 0;
+        //        for (int i = 0; i < model.OptionCount; i++)
+        //        {
+        //            if (!string.IsNullOrWhiteSpace(model.OptionDescriptions[i]))
+        //            {
+        //                Option option = new Option()
+        //                {
+        //                    OptionDescription = model.OptionDescriptions[i],
+        //                    CorrectAnswer = model.OptionAnswers[i]
+        //                };
+        //                options.Add(option);
+        //                if (model.OptionAnswers[i]) corrects += 1;
+        //            }
+        //        }
+        //        if (options.Count() < 2)
+        //        {
+        //            ModelState.AddModelError("", "Add at least 2 Options");
+        //            return View(model);
+        //        }
+        //        if (corrects == 0)
+        //        {
+        //            ModelState.AddModelError("", "Add at least 1 right answer");
+        //            return View(model);
+        //        }
+        //        originalquestion.Description = model.Description;
+        //        originalquestion.PossibleOptions = options;
+        //        if (model.ImageString != null)
+        //        {
+        //            byte[] b;
+        //            using (BinaryReader br = new BinaryReader(model.ImageString.OpenReadStream()))
+        //            {
+        //                b = br.ReadBytes((int)model.ImageString.OpenReadStream().Length);
+        //                originalquestion.ImageData = b;
+        //            }
+        //        }
+        //        //in plaats van question te updaten, gewoon verwijderen en opniew aanmaken
+        //        await questionRepo.Delete(model.QuestionId);
+        //        if (await questionRepo.Create(originalquestion) == null)
+        //        {
+        //            throw new Exception("Couldn't update the question");
+        //        }
+        //        return RedirectToAction("Questions", new { id = model.QuizId });
+        //    }
+        //    catch (Exception exc)
+        //    {
+        //        Console.WriteLine("Create is giving an error: " + exc.Message);
+        //        ModelState.AddModelError("", "Create actie is failed try again");
+        //        return View();
+        //    }
+        //}
     }
 }
