@@ -15,7 +15,7 @@ namespace Quiz.Models.Data
 {
     public static class QuizDbContextExtensions
     {
-        public async static Task SeedQuiz(IQuizRepo quizRepo, IQuestionRepo questionRepo)
+        public async static Task SeedQuizold(IQuizRepo quizRepo, IQuestionRepo questionRepo)
         {
             string[] quizNames = { "Animals", "trivia", "geography" };
             List<QuizClass>  quizzes = new List<QuizClass>();
@@ -62,6 +62,112 @@ namespace Quiz.Models.Data
             }
             await quizRepo.AddQuestionToQuizAsync(quizzes[0].QuizId, vraag1.QuestionId);
         }
+        public async static Task SeedQuiz(IQuizRepo quizRepo, IQuestionRepo questionRepo)
+        {
+            //quiz over Trivia aanmaken
+            string quizName = "Trivia";
+            if (await quizRepo.GetQuizByNameAsync(quizName) != null)
+            {
+                return;
+            }
+            QuizClass newQuiz = new QuizClass()
+            {
+                Name = quizName,
+                Difficulty = 5,
+                Description = "A quiz about all sorts of things"
+            };
+            await quizRepo.Create(newQuiz);
+
+            List<Option> opties = new List<Option>();
+            Question vraag = new Question()
+            {
+                Description = "Which of the following items was owned by the fewest U.S. homes in 1990?"
+            };
+            if (await questionRepo.GetQuestionByDescriptionAsync(vraag.Description) == null)
+            {
+                Option option1 = new Option()
+                {
+                    OptionDescription = "home computer",
+                    CorrectAnswer = false
+                };
+                Option option2 = new Option()
+                {
+                    OptionDescription = "compact disk player",
+                    CorrectAnswer = true
+                };
+                Option option3 = new Option()
+                {
+                    OptionDescription = "dishwasher",
+                    CorrectAnswer = false
+                };
+                opties.Add(option1);
+                opties.Add(option2);
+                opties.Add(option3);
+                vraag.PossibleOptions = opties;
+                await questionRepo.Create(vraag);
+                await quizRepo.AddQuestionToQuizAsync(newQuiz.QuizId, vraag.QuestionId);
+            }
+
+            vraag = new Question()
+            {
+                Description = "How tall is the tallest man on earth?"
+            };
+            if(await questionRepo.GetQuestionByDescriptionAsync(vraag.Description) == null)
+            {
+                Option option1 = new Option()
+                {
+                    OptionDescription = "2.72 m",
+                    CorrectAnswer = true
+                };
+                Option option2 = new Option()
+                {
+                    OptionDescription = "2.64 m",
+                    CorrectAnswer = false
+                };
+                Option option3 = new Option()
+                {
+                    OptionDescription = "3.05 m",
+                    CorrectAnswer = false
+                };
+                opties = new List<Option>();
+                opties.Add(option1);
+                opties.Add(option2);
+                opties.Add(option3);
+                vraag.PossibleOptions = opties;
+                await questionRepo.Create(vraag);
+                await quizRepo.AddQuestionToQuizAsync(newQuiz.QuizId, vraag.QuestionId);
+            }
+            vraag = new Question()
+            {
+                Description = "Which racer holds the record for the most Grand Prix wins?"
+            };
+            if (await questionRepo.GetQuestionByDescriptionAsync(vraag.Description) == null)
+            {
+                Option option1 = new Option()
+                {
+                    OptionDescription = "Michael Schumacher",
+                    CorrectAnswer = true
+                };
+                Option option2 = new Option()
+                {
+                    OptionDescription = "Mario Andretti",
+                    CorrectAnswer = false
+                };
+                Option option3 = new Option()
+                {
+                    OptionDescription = "Lewis Hamilton",
+                    CorrectAnswer = false
+                };
+                opties = new List<Option>();
+                opties.Add(option1);
+                opties.Add(option2);
+                opties.Add(option3);
+                vraag.PossibleOptions = opties;
+                await questionRepo.Create(vraag);
+                await quizRepo.AddQuestionToQuizAsync(newQuiz.QuizId, vraag.QuestionId);
+            }
+            return;
+        }
 
         public async static Task SeedRoles(RoleManager<Role> RoleMgr)
         {
@@ -78,7 +184,7 @@ namespace Quiz.Models.Data
         }
         public async static Task SeedUsers(UserManager<User> userMgr)
         {
-            //Admin aanmaken 
+            //Admins aanmaken 
             if (await userMgr.FindByNameAsync("admin@mail.com") == null)
             {
                 var user = new User()
@@ -98,31 +204,26 @@ namespace Quiz.Models.Data
                     throw new InvalidOperationException("Failed to build user and roles");
                 }
             }
-            //2. meerdere users  aanmaken --------------------------------------------         
-            //2a. persons met rol "Student" aanmaken       
-            //var nmbrStudents = 9;
-            //for (var i = 1; i <= nmbrStudents; i++)
-            //{
-            //    if (userMgr.FindByNameAsync("Student" + i).Result == null)
-            //    {
-            //        Person student = new Person
-            //        {
-            //            Id = Guid.NewGuid().ToString(),
-            //            UserName = "Student" + i,
-            //            Name = "nameStudent" + i,
-            //            Email = "emailSt" + i + "@howest.be",
-            //            Gender = (Person.GenderType)new Random().Next(0, 2), //GenderType.Male           
-            //        };
-            //        var userResult = await userMgr.CreateAsync(student, "studentP@sw00rd" + i);
-            //        var roleResult = await userMgr.AddToRoleAsync(student, "Student");
-            //        if (!userResult.Succeeded || !roleResult.Succeeded)
-            //        {
-            //            throw new InvalidOperationException("Failed to build " + student.UserName);
-            //        }
-            //    }
-            //}
+            if (await userMgr.FindByNameAsync("Docent@MCT") == null)
+            {
+                var user = new User()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = "Docent",
+                    Email = "Docent@MCT",
+                    UserName = "Docent@MCT"
+                };
+                var userResult = await userMgr.CreateAsync(user, "Docent@1");
+                var roleResult1 = await userMgr.AddToRoleAsync(user, "Admin");
+                var roleResult2 = await userMgr.AddToRoleAsync(user, "Creator");
+                var roleResult3 = await userMgr.AddToRoleAsync(user, "Player");
+                // var claimResult = await userMgr.AddClaimAsync(user, new Claim("DocentWeb", "True"));                
+                if (!userResult.Succeeded || !roleResult1.Succeeded || !roleResult2.Succeeded || !roleResult3.Succeeded)
+                {
+                    throw new InvalidOperationException("Failed to build user and roles");
+                }
+            }
         }
-
     }
 }
 

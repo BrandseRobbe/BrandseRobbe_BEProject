@@ -9,39 +9,46 @@
     @*<a asp-action="CreateQuestion">Create New</a>*@
     @Html.ActionLink("Create New", "CreateQuestion", new { id = ViewBag.quizId })
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.QuestionId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateCreated)
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+@if (Model.Count() == 0)
+{
+    <p>No questions have been added to this quiz yet</p>
+}
+else
+{
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.QuestionId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateCreated)
-                </td>
-                <td>
-                    @Html.ActionLink("Details", "QuestionDetails", new { questionId = item.QuestionId, quizId = ViewBag.quizId }) |
-                    @*@Html.ActionLink("Edit", "EditQuestion", new { questionId = item.QuestionId, quizId = ViewBag.quizId }) |*@
-                    @Html.ActionLink("Delete", "DeleteQuestion", new { questionId = item.QuestionId, quizId = ViewBag.quizId })
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.QuestionId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DateCreated)
+                </th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.QuestionId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateCreated)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "QuestionDetails", new { questionId = item.QuestionId, quizId = ViewBag.quizId }) |
+                        @Html.ActionLink("Delete", "DeleteQuestion", new { questionId = item.QuestionId, quizId = ViewBag.quizId })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a asp-action="Index">Back to all quizzes</a>
+}

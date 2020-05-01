@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -50,21 +51,39 @@ namespace Quiz.API
             services.AddDbContext<QuizDbContext>(options => options.UseSqlServer(connectionString));
 
             //2.2 Identity
-            services.AddIdentity<User, IdentityRole>()
+            services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<QuizDbContext>();
 
             //3 Registraties van Repos
-            services.AddScoped<IUserRepo, UserRepo>();
             services.AddScoped<IQuizRepo, QuizRepo>();
+            services.AddScoped<IQuestionRepo, QuestionRepo>();
+            services.AddScoped<IGameRepo, GameRepo>();
 
+            //swager
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1.0", new OpenApiInfo { Title = "Quiz_API", Version = "v1.0" });
             });
 
+            //cors
             services.AddCors(c =>
             {
                 c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+            });
+
+            //cookie
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                // Cookie settings
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+
+                options.LoginPath = "/Identity/Account/Login";
+                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                options.SlidingExpiration = true;
             });
         }
 
@@ -80,6 +99,7 @@ namespace Quiz.API
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseCors(options => options.AllowAnyOrigin());

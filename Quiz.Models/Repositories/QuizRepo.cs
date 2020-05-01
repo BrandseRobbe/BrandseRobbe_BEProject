@@ -11,10 +11,12 @@ namespace Quiz.Models.Repositories
     public class QuizRepo : IQuizRepo
     {
         private readonly QuizDbContext context;
+        private readonly IQuestionRepo questionRepo;
 
-        public QuizRepo(QuizDbContext context)
+        public QuizRepo(QuizDbContext context, IQuestionRepo questionRepo)
         {
             this.context = context;
+            this.questionRepo = questionRepo;
         }
 
         public async Task<IEnumerable<QuizClass>> GetAllQuizzesAsync()
@@ -124,8 +126,16 @@ namespace Quiz.Models.Repositories
                 {
                     return;
                 }
-                var result = context.Quizzes.Remove(quiz);
-                ////doe hier een archivering van de quiz ipv delete -> veiliger (optional i think)
+                //vragen uit de tussentabel verwijderen verwijderen
+                var tussentabel = await context.QuizQuestions.Where(e => e.QuizId == quizId).ToListAsync();
+                foreach(var tab in tussentabel)
+                {
+                    //questions uit quiz deleten (en tussentabel)
+                    await questionRepo.Delete(tab.QuestionId);
+                    //om enkel uit tussentabel halen
+                    //context.QuizQuestions.Remove(tab);
+                }
+                context.Quizzes.Remove(quiz);
                 await context.SaveChangesAsync();
             }
             catch (Exception exc)

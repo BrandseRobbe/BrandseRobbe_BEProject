@@ -88,11 +88,10 @@ namespace Quiz.Web
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
-            //QuizDbContextExtensions.SeedQuiz(quizRepo, questionRepo).Wait();
 
+            QuizDbContextExtensions.SeedQuiz(quizRepo, questionRepo).Wait();
             QuizDbContextExtensions.SeedRoles(roleMgr).Wait();
             QuizDbContextExtensions.SeedUsers(userMgr).Wait();
-            //QuizDbContextExtensions.SeedData(context).Wait();
         }
     }
 }

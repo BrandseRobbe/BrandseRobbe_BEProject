@@ -32,6 +32,12 @@ namespace Quiz.Web.Controllers
 
         public async Task<ActionResult> Questions(Guid id)
         {
+            //controleren of de quiz we lbestaat
+            QuizClass quiz = await quizRepo.GetQuizByIdAsync(id);
+            if(quiz == null)
+            {
+                return BadRequest("Couln't fine the quiz");
+            }
             var result = await quizRepo.GetQuizQuestionsAsync(id);
             ViewBag.quizId = id;
             return View(result);

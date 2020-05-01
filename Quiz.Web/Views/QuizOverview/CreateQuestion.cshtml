@@ -24,7 +24,7 @@
                     <label asp-for="Description" class="control-label">Option @(i+1)</label>
                     <div class="c-inputs">
                         <input asp-for="OptionDescriptions[i]" class="form-control c-input" />
-                        @Html.CheckBoxFor(model => model.OptionAnswers[i], new { @class = " c-checkbox" }) @*form-control*@
+                        @Html.CheckBoxFor(model => model.OptionAnswers[i], new { @class = " c-checkbox" })
                     </div>
                     <span asp-validation-for="OptionDescriptions[i]" class="text-danger"></span>
                 </div>
@@ -36,7 +36,6 @@
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
-                @*<button class="btn btn-primary" type="submit" asp-action="CreateQuestion">Save</button>*@
                 <button class="btn btn-primary" type="submit" asp-action="AddOption">Add another option</button>
             </div>
         </form>

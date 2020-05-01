@@ -32,7 +32,16 @@ namespace Quiz.Web.Controllers
         public async Task<ActionResult> Index()
         {
             var quizzes = await quizRepo.GetAllQuizzesAsync();
-            return View(quizzes);
+            List<QuizClass> valids = new List<QuizClass>();
+            foreach(QuizClass quiz in quizzes)
+            {
+                var questions = await quizRepo.GetQuizQuestionsAsync(quiz.QuizId);
+                if(questions.Count() != 0)
+                {
+                    valids.Add(quiz);
+                }
+            }
+            return View(valids.AsEnumerable());
         }
 
         public async Task<ActionResult> Scoreboard()
@@ -42,17 +51,20 @@ namespace Quiz.Web.Controllers
             foreach (Game score in scores)
             {
                 QuizClass quiz = await quizRepo.GetQuizByIdAsync(score.QuizId);
-                User user = await userMgr.FindByIdAsync(score.UserId);
-                var questions = await quizRepo.GetQuizQuestionsAsync(score.QuizId);
-                Scoreboard_VM vm = new Scoreboard_VM()
+                if(quiz!= null)
                 {
-                    QuizName = quiz.Name,
-                    UserName = user.Name,
-                    correctanswers = score.CorrectAnswers,
-                    maxquestions = questions.Count(),
-                    completetime = score.TimeFinished.Value.Subtract(score.TimeStarted)
-                };
-                scoreboard.Add(vm);
+                    User user = await userMgr.FindByIdAsync(score.UserId);
+                    var questions = await quizRepo.GetQuizQuestionsAsync(score.QuizId);
+                    Scoreboard_VM vm = new Scoreboard_VM()
+                    {
+                        QuizName = quiz.Name,
+                        UserName = user.Name,
+                        correctanswers = score.CorrectAnswers,
+                        maxquestions = questions.Count(),
+                        completetime = score.TimeFinished.Value.Subtract(score.TimeStarted)
+                    };
+                    scoreboard.Add(vm);
+                }
             }
             return View(scoreboard);
         }

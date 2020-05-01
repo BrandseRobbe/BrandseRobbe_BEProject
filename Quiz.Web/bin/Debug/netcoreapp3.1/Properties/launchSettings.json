@@ -18,7 +18,7 @@
     "Quiz.Web": {
         "commandName": "Project",
         "launchBrowser": true,
-        "launchUrl": "QuizOverview/CreateQuestion/c8e1d342-6cc5-412b-8c32-57f0f80c1138",
+        "launchUrl": "QuizOverview/",
         "applicationUrl": "https://localhost:5001;http://localhost:5000",
         "environmentVariables": {
             "ASPNETCORE_ENVIRONMENT": "Development"

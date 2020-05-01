@@ -127,9 +127,6 @@ C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\B
 C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\quizProject\Quiz.API\bin\Debug\netcoreapp3.1\Quiz.Models.dll
 C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\quizProject\Quiz.API\bin\Debug\netcoreapp3.1\Quiz.Models.pdb
 C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\quizProject\Quiz.API\obj\Debug\netcoreapp3.1\Quiz.API.csprojAssemblyReference.cache
-C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\quizProject\Quiz.API\obj\Debug\netcoreapp3.1\Quiz.API.csproj.CoreCompileInputs.cache
-C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\quizProject\Quiz.API\obj\Debug\netcoreapp3.1\Quiz.API.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\quizProject\Quiz.API\obj\Debug\netcoreapp3.1\Quiz.API.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\quizProject\Quiz.API\obj\Debug\netcoreapp3.1\Quiz.API.AssemblyInfoInputs.cache
 C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\quizProject\Quiz.API\obj\Debug\netcoreapp3.1\Quiz.API.AssemblyInfo.cs
 C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\quizProject\Quiz.API\obj\Debug\netcoreapp3.1\Quiz.API.RazorTargetAssemblyInfo.cache
@@ -139,3 +136,12 @@ C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\B
 C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\quizProject\Quiz.API\obj\Debug\netcoreapp3.1\Quiz.API.dll
 C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\quizProject\Quiz.API\obj\Debug\netcoreapp3.1\Quiz.API.pdb
 C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\quizProject\Quiz.API\obj\Debug\netcoreapp3.1\Quiz.API.genruntimeconfig.cache
+C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\quizProject\Quiz.API\bin\Debug\netcoreapp3.1\Quiz.API.StaticWebAssets.xml
+C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\quizProject\Quiz.API\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Identity.UI.Views.V3.dll
+C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\quizProject\Quiz.API\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Identity.UI.Views.V4.dll
+C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\quizProject\Quiz.API\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Identity.UI.dll
+C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\quizProject\Quiz.API\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileProviders.Abstractions.dll
+C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\quizProject\Quiz.API\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileProviders.Embedded.dll
+C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\quizProject\Quiz.API\obj\Debug\netcoreapp3.1\Quiz.API.csproj.CoreCompileInputs.cache
+C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\quizProject\Quiz.API\obj\Debug\netcoreapp3.1\Quiz.API.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\quizProject\Quiz.API\obj\Debug\netcoreapp3.1\Quiz.API.MvcApplicationPartsAssemblyInfo.cache
