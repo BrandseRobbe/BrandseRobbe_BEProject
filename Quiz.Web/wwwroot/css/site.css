@@ -105,7 +105,20 @@ body {
     border-radius: 5px;
     box-shadow: inset 0px 0px 20px 0px rgb(164, 164, 164);
 }
-
-
+.c-inputs {
+    display: flex;
+    height: 100%;
+    position: relative;
+}
+.c-input {
+    width: 80%;
+    height: 100%;
+}
+.c-checkbox {
+    width: 20%;
+    height: 100%;
+    position: absolute;
+    right: 0px;
+}
 
 /*border-color: #e9ecef*/

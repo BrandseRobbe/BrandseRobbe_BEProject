@@ -20,17 +20,11 @@
             @foreach (KeyValuePair<string, bool> item in Model.Options)
             {
                 @Html.CheckBoxFor(model => model.Options[item.Key], new { @class = "o-hide-accessible c-option-hidden" })
-                @*<label asp-for="Options[item.Key]"></label>*@
                 <label asp-for="Options[item.Key]" class="card text-white bg-primary mb-3" style="max-width: 20rem;">
                     <div class="card-body">
                         <p class="card-text">@item.Key</p>
                     </div>
                 </label>
-                @*<div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
-                    <div class="card-body">
-                        <p class="card-text">@item.Key</p>
-                    </div>
-                </div>*@
             }
             <input type="hidden" id="vraagId" name="vraagId" value="@Model.QuestionId" />
             <input type="hidden" id="vraagNr" name="vraagNr" value="@Model.questionNr" />
