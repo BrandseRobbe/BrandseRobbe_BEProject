@@ -37,12 +37,24 @@ namespace Quiz.API.Controllers
 
         // GET: api/QuizAPI/edce166a-db38-4e71-8279-be8612a13632
         [HttpGet("Quiz/{id}")]
-        public async Task<IActionResult> GetQuiz(Guid id)
+        public async Task<IActionResult> GetQuiz(Guid? id)
         {
-            return Ok(await quizRepo.GetQuizByIdAsync(id)); //Ok()) = OkObjectResult()
+            if (id == null)
+            {
+                return BadRequest("This enpoind requires a valid QuizId");
+            }
+            return Ok(await quizRepo.GetQuizByIdAsync(id ?? Guid.Empty)); //Ok()) = OkObjectResult()
+        }
+        [HttpGet("Quiz/{id}/Questions")]
+        public async Task<IActionResult> GetQuizQuestions(Guid? id)
+        {
+            if (id == null)
+            {
+                return BadRequest("This enpoind requires a valid QuizId");
+            }
+            return Ok(await quizRepo.GetQuizQuestionsAsync(id ?? Guid.Empty));
         }
 
-        // POST: api/QuizAPI
         [HttpPost]
         [Authorize(AuthenticationSchemes = AuthSchemes, Roles = "Creator")]
         public async Task<IActionResult> PostQuiz([FromForm] QuizClass quiz)
@@ -56,21 +68,24 @@ namespace Quiz.API.Controllers
                     return BadRequest(ModelState);
                 }
                 confirmedModel = await quizRepo.Create(quiz);
-                if (confirmedModel == null) return NotFound("Er ging iets mis.");
+                if (confirmedModel == null) return BadRequest("Something went wrong");
             }
             catch (Exception exc)
             {
-                return BadRequest("Toevoegen mislukt");
+                return BadRequest("Couldn't create the quiz");
             }
             return CreatedAtAction("Get", new { id = confirmedModel.QuizId }, confirmedModel);
         }
 
-        //// PUT: api/QuizAPI/5
         [HttpPut("{id}")]
         [Authorize(AuthenticationSchemes = AuthSchemes, Roles = "Creator")]
-        public async Task<ActionResult<QuizClass>> PutQuiz([FromForm] QuizClass quiz, Guid id)
+        public async Task<ActionResult<QuizClass>> PutQuiz([FromForm] QuizClass quiz, Guid? id)
         {
-            quiz.QuizId = id;
+            if (id == null)
+            {
+                return BadRequest("This enpoind requires a valid QuizId");
+            }
+            quiz.QuizId = id ?? Guid.Empty;
             var confirmedModel = new QuizClass(); //te returnen 
             try
             {
@@ -78,7 +93,7 @@ namespace Quiz.API.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                if (!await quizRepo.QuizExists(id))
+                if (!await quizRepo.QuizExists(id ?? Guid.Empty))
                 {
                     return BadRequest($"{id} bestaat niet");
                 }
@@ -86,24 +101,27 @@ namespace Quiz.API.Controllers
             }
             catch (DbUpdateException)
             {
-                if (await quizRepo.QuizExists(id))
+                if (await quizRepo.QuizExists(id ?? Guid.Empty))
                 {
                     return Conflict();
                 }
                 else
                 {
-                    throw;
+                    return BadRequest("Something went wrong, try again later");
                 }
             }
             return Ok(confirmedModel);
         }
 
-        // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = AuthSchemes, Roles = "Creator")]
-        public async Task DeletQuiz(Guid id)
+        public async Task DeletQuiz(Guid? id)
         {
-            await quizRepo.Delete(id);
+            if (id == null)
+            {
+                return BadRequest("This enpoind requires a valid QuizId");
+            }
+            await quizRepo.Delete(id ?? Guid.Empty);
             return;
         }
     }

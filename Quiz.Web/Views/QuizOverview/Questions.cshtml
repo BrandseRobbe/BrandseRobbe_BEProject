@@ -44,7 +44,7 @@ else
                     </td>
                     <td>
                         @Html.ActionLink("Details", "QuestionDetails", new { questionId = item.QuestionId, quizId = ViewBag.quizId }) |
-                        @Html.ActionLink("Delete", "DeleteQuestion", new { questionId = item.QuestionId, quizId = ViewBag.quizId })
+                        @Html.ActionLink("Delete", "DeleteQuestion", new { questionId = item.QuestionId, quizId = ViewBag.quizId }, new { @class = "text-danger" })
                     </td>
                 </tr>
             }

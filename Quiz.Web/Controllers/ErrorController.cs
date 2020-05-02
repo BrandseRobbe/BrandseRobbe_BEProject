@@ -15,8 +15,8 @@ namespace Quiz.Web.Controllers
         {
             switch (statusCode)
             {
-                case 400: ViewBag.ErrorMessage = "Sorry, this resource is non existing."; break;
-                case 404: ViewBag.ErrorMessage = "Sorry, resource not available or not found."; break;
+                case 400: ViewBag.ErrorMessage = "Sorry, this resource is doesn't exist."; break;
+                case 404: ViewBag.ErrorMessage = "Sorry, resource is unavailable or wasn't found."; break;
                 default: ViewBag.ErrorMessage = "Sorry, a server error occurred."; break;
             }
             return View("ErrorPage");

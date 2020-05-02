@@ -53,7 +53,7 @@ else
                     @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                     {
                         <td>
-                            @Html.ActionLink("Delete", "DeleteScore", new { id = item.GameId })
+                            @Html.ActionLink("Delete", "DeleteScore", new { id = item.GameId }, new { @class = "text-danger" })
                         </td>
                     }
                 </tr>

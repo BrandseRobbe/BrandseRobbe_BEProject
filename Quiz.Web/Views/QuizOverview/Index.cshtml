@@ -50,7 +50,7 @@ else
                     <td>
                         @Html.ActionLink("Questions", "Questions", new { id = item.QuizId }) |
                         @Html.ActionLink("Edit", "EditQuiz", new { id = item.QuizId }) |
-                        @Html.ActionLink("Delete", "DeleteQuiz", new { id = item.QuizId })
+                        @Html.ActionLink("Delete", "DeleteQuiz", new { id = item.QuizId }, new { @class = "text-danger" })
                     </td>
                 </tr>
             }
