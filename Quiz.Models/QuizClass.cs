@@ -10,16 +10,17 @@ namespace Quiz.Models
     public class QuizClass
     {
         [Key]
-        //[Display(Name = "Id")]
-        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid QuizId { get; set; }  = Guid.NewGuid();
+        public Guid QuizId { get; set; } = Guid.NewGuid();
+
+        [Range(0, 10, ErrorMessage = "Value must be between {1} and {2}.")]
         public int Difficulty { get; set; }
+        [Required]
         public string Description { get; set; }
         [Required]
         public string Name { get; set; }
 
-        //[DisplayFormat(DataFormatString = "{yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        //[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime DateCreated { get; set; } = DateTime.Now;
+        public ICollection<Game> QuizGames { get; set; } = new List<Game>();
     }
 }

@@ -8,8 +8,10 @@ namespace Quiz.Web.ViewModels
 {
     public class Scoreboard_VM
     {
+        public Guid GameId { get; set; }
         public string QuizId { get; set; }
         public string QuizName { get; set; }
+        public string UserEmail { get; set; }
         public string UserName { get; set; }
         public int correctanswers { get; set; }
         public int maxquestions { get; set; }

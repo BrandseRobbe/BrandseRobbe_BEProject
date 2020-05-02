@@ -11,6 +11,7 @@ namespace Quiz.Web.ViewModels
     {
         public Guid QuizId { get; set; }
         public Guid QuestionId { get; set; }
+        [Required]
         public string Description { get; set; }
         public List<string> OptionDescriptions { get; set; } = new List<string>();
         public List<bool> OptionAnswers { get; set; } = new List<bool>();

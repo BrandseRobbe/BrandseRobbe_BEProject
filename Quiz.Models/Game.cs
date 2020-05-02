@@ -15,5 +15,8 @@ namespace Quiz.Models
         public DateTime TimeStarted { get; set; } = DateTime.Now;
         public DateTime? TimeFinished { get; set; }
         public int CorrectAnswers { get; set; } = 0;
+
+        public virtual QuizClass CurrentQuiz { get; set; }
+        public virtual User CurrentUser{ get; set; }
     }
 }

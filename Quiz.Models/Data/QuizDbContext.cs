@@ -24,6 +24,7 @@ namespace Quiz.Web.Data
         public virtual DbSet<Game> Games { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<QuizQuestions> QuizQuestions { get; set; }
+        public virtual DbSet<GameQuestion> GameQuestions { get; set; }
 
         //public virtual DbSet<Role> Roles { get; set; }
 
@@ -35,16 +36,15 @@ namespace Quiz.Web.Data
             {
                 entity.HasKey(e => new { e.QuestionId, e.QuizId });
             });
+            modelBuilder.Entity<GameQuestion>(entity =>
+            {
+                entity.HasKey(e => new { e.QuestionId, e.GameId });
+            });
 
             //tussentabel UserRole: KEYS:
             modelBuilder.Entity<UserRole>(entity =>
             {
                 entity.HasKey(e => new { e.UserId, e.RoleId });
-                //entity.HasKey(e => new { e.UserId, e.RoleId, e.EducationId }); 
-                //tussentabel UserRole: RELATIES: 
-                //Gezien de aangepaste tussentabellen(!) is het NOODZAKELIJK om de PK/FK 
-                // instructies aan te maken voor SQL SERVER. Zoniet gebruikt/maakt het 
-                // EF zijn eigen relaties aan en krijg je dubbel aangemaakte properties 
                 entity.HasOne(d => d.Role).WithMany(p => p.UserRoles).HasForeignKey(d => d.RoleId);
                 entity.HasOne(d => d.User).WithMany(p => p.UserRoles).HasForeignKey(d => d.UserId);
             });

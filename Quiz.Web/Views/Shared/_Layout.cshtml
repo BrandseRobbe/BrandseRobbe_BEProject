@@ -20,9 +20,6 @@
                     <partial name="_LoginPartial" />
                     @*<ul class="navbar-nav mr-auto">*@
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">About</a>
-                        </li>
                         @if (User.Identity.IsAuthenticated && User.IsInRole("Player"))
                         {
                             <li class="nav-item"><a class="nav-link" asp-controller="Game" asp-action="Index">Play quiz</a></li>

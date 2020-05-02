@@ -4,10 +4,61 @@
     ViewData["Title"] = "Finished";
 }
 
-<h1>Quiz: @Html.DisplayFor(model => model.QuizDescription) finished</h1>
+<h1>@Html.DisplayFor(model => model.QuizDescription): @Html.DisplayFor(model => model.QuizDescription) finished</h1>
 
 <h2>Final score: @Html.DisplayFor(model => model.userscore)/@Html.DisplayFor(model => model.maxscore)</h2>
 <h2>Completion time: @Html.DisplayFor(model => model.completetime)</h2>
 <p>
     <a asp-action="ScoreBoard">See scoreboard</a>
 </p>
+
+@foreach (IEnumerable<Question> questions in Model.gameresults)
+{
+
+    <dl class="row c-border-bottom">
+        <dt class="col-sm-2">
+            Descritpion
+        </dt>
+        <dd class="col-sm-10">
+            @questions.ElementAt(0).Description
+        </dd>
+        <dt class="col-sm-2">
+            Date created
+        </dt>
+        <dd class="col-sm-10">
+            @questions.ElementAt(0).DateCreated
+        </dd>
+        <dt class="col-sm-2">
+            Options
+        </dt>
+        @{
+            var correctoptions = questions.ElementAt(0).PossibleOptions.OrderBy(e => e.OptionDescription);
+            var useroptions = questions.ElementAt(1).PossibleOptions.OrderBy(e => e.OptionDescription);
+        }
+        @for (int i = 0; i < correctoptions.Count(); i++)
+        {
+            if (correctoptions.ElementAt(i).CorrectAnswer)
+            {
+                <dd class="col-sm-10 text-success">
+                    @correctoptions.ElementAt(i).OptionDescription @Html.Raw(((char)10003).ToString())
+                </dd>
+            }
+            else if (useroptions.ElementAt(i).CorrectAnswer)
+            {
+                <dd class="col-sm-10 text-danger">
+                    @correctoptions.ElementAt(i).OptionDescription @Html.Raw(((char)10005).ToString())
+                </dd>
+            }
+            else if (!correctoptions.ElementAt(i).CorrectAnswer)
+            {
+                <dd class="col-sm-10">
+                    @correctoptions.ElementAt(i).OptionDescription @Html.Raw(((char)10005).ToString())
+                </dd>
+            }
+            if (correctoptions.Last<Option>() != correctoptions.ElementAt(i))
+            {
+                <dt class="col-sm-2"></dt>
+            }
+        }
+    </dl>
+}

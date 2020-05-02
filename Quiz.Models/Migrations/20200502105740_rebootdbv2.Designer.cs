@@ -10,8 +10,8 @@ using Quiz.Web.Data;
 namespace Quiz.Models.Migrations
 {
     [DbContext(typeof(QuizDbContext))]
-    [Migration("20200429192416_guids")]
-    partial class guids
+    [Migration("20200502105740_rebootdbv2")]
+    partial class rebootdbv2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -119,6 +119,9 @@ namespace Quiz.Models.Migrations
                     b.Property<int>("CorrectAnswers")
                         .HasColumnType("int");
 
+                    b.Property<Guid?>("CurrentQuizQuizId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("QuizId")
                         .HasColumnType("uniqueidentifier");
 
@@ -129,11 +132,33 @@ namespace Quiz.Models.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("GameId");
 
+                    b.HasIndex("CurrentQuizQuizId");
+
+                    b.HasIndex("UserId");
+
                     b.ToTable("Games");
+                });
+
+            modelBuilder.Entity("Quiz.Models.GameQuestion", b =>
+                {
+                    b.Property<Guid>("QuestionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("GameId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CorrectQuestionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("QuestionId", "GameId");
+
+                    b.HasIndex("GameId");
+
+                    b.ToTable("GameQuestions");
                 });
 
             modelBuilder.Entity("Quiz.Models.Option", b =>
@@ -377,6 +402,32 @@ namespace Quiz.Models.Migrations
                     b.HasOne("Quiz.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Quiz.Models.Game", b =>
+                {
+                    b.HasOne("Quiz.Models.QuizClass", "CurrentQuiz")
+                        .WithMany("QuizGames")
+                        .HasForeignKey("CurrentQuizQuizId");
+
+                    b.HasOne("Quiz.Models.User", "CurrentUser")
+                        .WithMany("UserGames")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Quiz.Models.GameQuestion", b =>
+                {
+                    b.HasOne("Quiz.Models.Game", "Game")
+                        .WithMany()
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Quiz.Models.Question", "Question")
+                        .WithMany()
+                        .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

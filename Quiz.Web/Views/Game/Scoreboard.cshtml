@@ -37,7 +37,7 @@ else
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
+                <tr class="@(item.UserEmail == User.Identity.Name ? "table-secondary" : "")">
                     <td>
                         @Html.DisplayFor(modelItem => item.QuizName)
                     </td>
@@ -53,7 +53,7 @@ else
                     @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                     {
                         <td>
-                            @Html.ActionLink("Delete", "Delete", new { id = item.QuizId })
+                            @Html.ActionLink("Delete", "DeleteScore", new { id = item.GameId })
                         </td>
                     }
                 </tr>

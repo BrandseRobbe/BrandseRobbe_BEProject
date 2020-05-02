@@ -439,3 +439,4 @@ C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\B
 C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\Quiz.Web\obj\Debug\netcoreapp3.1\Razor\Views\QuizOverview\DeleteQuestion.cshtml.g.cs
 C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\Quiz.Web\obj\Debug\netcoreapp3.1\Razor\Views\Game\PlayQuiz.cshtml.g.cs
 C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\Quiz.Web\obj\Debug\netcoreapp3.1\Razor\Views\QuizOverview\EditQuestion.cshtml.g.cs
+C:\Users\Robbe Brandse\OneDrive - Hogeschool West-Vlaanderen\School\Semester 4\Backend Development\BrandseRobbe_BEProject\Quiz.Web\obj\Debug\netcoreapp3.1\Razor\Views\Error\ErrorPage.cshtml.g.cs

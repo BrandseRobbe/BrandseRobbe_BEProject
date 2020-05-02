@@ -27,7 +27,10 @@ namespace Quiz.Web
         {
             services.AddDbContext<QuizDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                    Configuration.GetConnectionString("DefaultConnection")),
+                                ServiceLifetime.Transient);
+
+
 
             services.AddIdentity<User, Role>() //NIET de AddDefaultIdentity()) 
                 .AddEntityFrameworkStores<QuizDbContext>()
@@ -45,7 +48,7 @@ namespace Quiz.Web
                 options.Password.RequiredLength = 6;
                 options.User.RequireUniqueEmail = true;
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
-            }); 
+            });
             services.ConfigureApplicationCookie(options =>
             {   // Cookie settings 
                 options.Cookie.HttpOnly = true;
@@ -66,10 +69,11 @@ namespace Quiz.Web
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
+                app.UseStatusCodePagesWithRedirects("/Error/{0}");
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseStatusCodePagesWithRedirects("/Error/{0}");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }

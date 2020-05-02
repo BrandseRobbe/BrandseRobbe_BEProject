@@ -19,6 +19,6 @@ namespace Quiz.Models
 
         //public virtual ICollection<IdentityUserRole<string>> Roles { get; } = new List<IdentityUserRole<string>>();
         public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
-
+        public ICollection<Game> UserGames { get; set; } = new List<Game>();
     }
 }

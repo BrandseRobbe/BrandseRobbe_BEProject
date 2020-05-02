@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,17 +19,11 @@ namespace Quiz.API.Controllers
     public class QuizAPIController : ControllerBase
     {
         private readonly IQuizRepo quizRepo;
+        private const string AuthSchemes = CookieAuthenticationDefaults.AuthenticationScheme + ",Identity.Application";
 
         public QuizAPIController(IQuizRepo quizRepo)
         {
             this.quizRepo = quizRepo;
-        }
-
-        // GET: api/QuizAPI
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
         }
 
         // GET: api/QuizAPI/Quizzes
@@ -36,13 +32,6 @@ namespace Quiz.API.Controllers
         public async Task<IActionResult> GetQuizzes()
         {
             var quizzes = await quizRepo.GetAllQuizzesAsync();
-            //var model = await toDoTaskRepo.GetAlltoDoTasksAsync();
-            //List<ToDoTask_DTO> model_DTO = new List<ToDoTask_DTO>();
-            //foreach (ToDoTask item in model)
-            //{
-            //    var result = new ToDoTask_DTO();
-            //    model_DTO.Add(ToDoMapper.ConvertTo_DTO(item, ref result));
-            //}
             return Ok(quizzes);
         }
 
@@ -55,6 +44,7 @@ namespace Quiz.API.Controllers
 
         // POST: api/QuizAPI
         [HttpPost]
+        [Authorize(AuthenticationSchemes = AuthSchemes, Roles = "Creator")]
         public async Task<IActionResult> PostQuiz([FromForm] QuizClass quiz)
         {
             //waarschijnlijk nog aanpassen naar DTO's
@@ -77,6 +67,7 @@ namespace Quiz.API.Controllers
 
         //// PUT: api/QuizAPI/5
         [HttpPut("{id}")]
+        [Authorize(AuthenticationSchemes = AuthSchemes, Roles = "Creator")]
         public async Task<ActionResult<QuizClass>> PutQuiz([FromForm] QuizClass quiz, Guid id)
         {
             quiz.QuizId = id;
@@ -109,7 +100,8 @@ namespace Quiz.API.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public async Task Delete(Guid id)
+        [Authorize(AuthenticationSchemes = AuthSchemes, Roles = "Creator")]
+        public async Task DeletQuiz(Guid id)
         {
             await quizRepo.Delete(id);
             return;

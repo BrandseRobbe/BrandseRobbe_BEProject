@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Quiz.Models.Migrations
 {
-    public partial class Identity2 : Migration
+    public partial class rebootdbv2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -26,8 +26,7 @@ namespace Quiz.Models.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(maxLength: 25, nullable: true),
-                    DateOfBirth = table.Column<DateTime>(nullable: true)
+                    Name = table.Column<string>(maxLength: 25, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -40,7 +39,8 @@ namespace Quiz.Models.Migrations
                 {
                     QuestionId = table.Column<Guid>(nullable: false),
                     Description = table.Column<string>(nullable: true),
-                    DateCreated = table.Column<DateTime>(nullable: false)
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    ImageData = table.Column<byte[]>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -53,6 +53,7 @@ namespace Quiz.Models.Migrations
                 {
                     QuizId = table.Column<Guid>(nullable: false),
                     Difficulty = table.Column<int>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false)
                 },
@@ -86,8 +87,8 @@ namespace Quiz.Models.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    ProviderKey = table.Column<string>(nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: false)
                 },
@@ -107,8 +108,8 @@ namespace Quiz.Models.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    Name = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -162,6 +163,35 @@ namespace Quiz.Models.Migrations
                         column: x => x.QuizClassQuizId,
                         principalTable: "Quizzes",
                         principalColumn: "QuizId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Games",
+                columns: table => new
+                {
+                    GameId = table.Column<Guid>(nullable: false),
+                    UserId = table.Column<string>(nullable: true),
+                    QuizId = table.Column<Guid>(nullable: false),
+                    TimeStarted = table.Column<DateTime>(nullable: false),
+                    TimeFinished = table.Column<DateTime>(nullable: true),
+                    CorrectAnswers = table.Column<int>(nullable: false),
+                    CurrentQuizQuizId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Games", x => x.GameId);
+                    table.ForeignKey(
+                        name: "FK_Games_Quizzes_CurrentQuizQuizId",
+                        column: x => x.CurrentQuizQuizId,
+                        principalTable: "Quizzes",
+                        principalColumn: "QuizId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Games_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -236,6 +266,31 @@ namespace Quiz.Models.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "GameQuestions",
+                columns: table => new
+                {
+                    GameId = table.Column<Guid>(nullable: false),
+                    QuestionId = table.Column<Guid>(nullable: false),
+                    CorrectQuestionId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GameQuestions", x => new { x.QuestionId, x.GameId });
+                    table.ForeignKey(
+                        name: "FK_GameQuestions_Games_GameId",
+                        column: x => x.GameId,
+                        principalTable: "Games",
+                        principalColumn: "GameId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_GameQuestions_Questions_QuestionId",
+                        column: x => x.QuestionId,
+                        principalTable: "Questions",
+                        principalColumn: "QuestionId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -281,6 +336,21 @@ namespace Quiz.Models.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_GameQuestions_GameId",
+                table: "GameQuestions",
+                column: "GameId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Games_CurrentQuizQuizId",
+                table: "Games",
+                column: "CurrentQuizQuizId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Games_UserId",
+                table: "Games",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Options_QuestionId",
                 table: "Options",
                 column: "QuestionId");
@@ -309,6 +379,9 @@ namespace Quiz.Models.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "GameQuestions");
+
+            migrationBuilder.DropTable(
                 name: "Options");
 
             migrationBuilder.DropTable(
@@ -318,13 +391,16 @@ namespace Quiz.Models.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Games");
 
             migrationBuilder.DropTable(
                 name: "Questions");
 
             migrationBuilder.DropTable(
                 name: "Quizzes");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }
