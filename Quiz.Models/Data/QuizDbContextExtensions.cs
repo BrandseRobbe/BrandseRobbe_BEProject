@@ -66,105 +66,104 @@ namespace Quiz.Models.Data
         {
             //quiz over Trivia aanmaken
             string quizName = "Trivia";
-            if (await quizRepo.GetQuizByNameAsync(quizName) != null)
+            if (await quizRepo.GetQuizByNameAsync(quizName) == null)
             {
-                return;
-            }
-            QuizClass newQuiz = new QuizClass()
-            {
-                Name = quizName,
-                Difficulty = 5,
-                Description = "A quiz about all sorts of things"
-            };
-            await quizRepo.Create(newQuiz);
+                QuizClass newQuiz = new QuizClass()
+                {
+                    Name = quizName,
+                    Difficulty = 5,
+                    Description = "A quiz about all sorts of things"
+                };
+                await quizRepo.Create(newQuiz);
 
-            List<Option> opties = new List<Option>();
-            Question vraag = new Question()
-            {
-                Description = "Which of the following items was owned by the fewest U.S. homes in 1990?"
-            };
-            if (await questionRepo.GetQuestionByDescriptionAsync(vraag.Description) == null)
-            {
-                Option option1 = new Option()
+                List<Option> opties = new List<Option>();
+                Question vraag = new Question()
                 {
-                    OptionDescription = "home computer",
-                    CorrectAnswer = false
+                    Description = "Which of the following items was owned by the fewest U.S. homes in 1990?"
                 };
-                Option option2 = new Option()
+                if (await questionRepo.GetQuestionByDescriptionAsync(vraag.Description) == null)
                 {
-                    OptionDescription = "compact disk player",
-                    CorrectAnswer = true
-                };
-                Option option3 = new Option()
-                {
-                    OptionDescription = "dishwasher",
-                    CorrectAnswer = false
-                };
-                opties.Add(option1);
-                opties.Add(option2);
-                opties.Add(option3);
-                vraag.PossibleOptions = opties;
-                await questionRepo.Create(vraag);
-                await quizRepo.AddQuestionToQuizAsync(newQuiz.QuizId, vraag.QuestionId);
-            }
+                    Option option1 = new Option()
+                    {
+                        OptionDescription = "home computer",
+                        CorrectAnswer = false
+                    };
+                    Option option2 = new Option()
+                    {
+                        OptionDescription = "compact disk player",
+                        CorrectAnswer = true
+                    };
+                    Option option3 = new Option()
+                    {
+                        OptionDescription = "dishwasher",
+                        CorrectAnswer = false
+                    };
+                    opties.Add(option1);
+                    opties.Add(option2);
+                    opties.Add(option3);
+                    vraag.PossibleOptions = opties;
+                    await questionRepo.Create(vraag);
+                    await quizRepo.AddQuestionToQuizAsync(newQuiz.QuizId, vraag.QuestionId);
+                }
 
-            vraag = new Question()
-            {
-                Description = "How tall is the tallest man on earth?"
-            };
-            if(await questionRepo.GetQuestionByDescriptionAsync(vraag.Description) == null)
-            {
-                Option option1 = new Option()
+                vraag = new Question()
                 {
-                    OptionDescription = "2.72 m",
-                    CorrectAnswer = true
+                    Description = "How tall is the tallest man on earth?"
                 };
-                Option option2 = new Option()
+                if (await questionRepo.GetQuestionByDescriptionAsync(vraag.Description) == null)
                 {
-                    OptionDescription = "2.64 m",
-                    CorrectAnswer = false
-                };
-                Option option3 = new Option()
+                    Option option1 = new Option()
+                    {
+                        OptionDescription = "2.72 m",
+                        CorrectAnswer = true
+                    };
+                    Option option2 = new Option()
+                    {
+                        OptionDescription = "2.64 m",
+                        CorrectAnswer = false
+                    };
+                    Option option3 = new Option()
+                    {
+                        OptionDescription = "3.05 m",
+                        CorrectAnswer = false
+                    };
+                    opties = new List<Option>();
+                    opties.Add(option1);
+                    opties.Add(option2);
+                    opties.Add(option3);
+                    vraag.PossibleOptions = opties;
+                    await questionRepo.Create(vraag);
+                    await quizRepo.AddQuestionToQuizAsync(newQuiz.QuizId, vraag.QuestionId);
+                }
+                vraag = new Question()
                 {
-                    OptionDescription = "3.05 m",
-                    CorrectAnswer = false
+                    Description = "Which racer holds the record for the most Grand Prix wins?"
                 };
-                opties = new List<Option>();
-                opties.Add(option1);
-                opties.Add(option2);
-                opties.Add(option3);
-                vraag.PossibleOptions = opties;
-                await questionRepo.Create(vraag);
-                await quizRepo.AddQuestionToQuizAsync(newQuiz.QuizId, vraag.QuestionId);
-            }
-            vraag = new Question()
-            {
-                Description = "Which racer holds the record for the most Grand Prix wins?"
-            };
-            if (await questionRepo.GetQuestionByDescriptionAsync(vraag.Description) == null)
-            {
-                Option option1 = new Option()
+                if (await questionRepo.GetQuestionByDescriptionAsync(vraag.Description) == null)
                 {
-                    OptionDescription = "Michael Schumacher",
-                    CorrectAnswer = true
-                };
-                Option option2 = new Option()
-                {
-                    OptionDescription = "Mario Andretti",
-                    CorrectAnswer = false
-                };
-                Option option3 = new Option()
-                {
-                    OptionDescription = "Lewis Hamilton",
-                    CorrectAnswer = false
-                };
-                opties = new List<Option>();
-                opties.Add(option1);
-                opties.Add(option2);
-                opties.Add(option3);
-                vraag.PossibleOptions = opties;
-                await questionRepo.Create(vraag);
-                await quizRepo.AddQuestionToQuizAsync(newQuiz.QuizId, vraag.QuestionId);
+                    Option option1 = new Option()
+                    {
+                        OptionDescription = "Michael Schumacher",
+                        CorrectAnswer = true
+                    };
+                    Option option2 = new Option()
+                    {
+                        OptionDescription = "Mario Andretti",
+                        CorrectAnswer = false
+                    };
+                    Option option3 = new Option()
+                    {
+                        OptionDescription = "Lewis Hamilton",
+                        CorrectAnswer = false
+                    };
+                    opties = new List<Option>();
+                    opties.Add(option1);
+                    opties.Add(option2);
+                    opties.Add(option3);
+                    vraag.PossibleOptions = opties;
+                    await questionRepo.Create(vraag);
+                    await quizRepo.AddQuestionToQuizAsync(newQuiz.QuizId, vraag.QuestionId);
+                }
             }
             return;
         }
@@ -196,10 +195,9 @@ namespace Quiz.Models.Data
                 };
                 var userResult = await userMgr.CreateAsync(user, "Admin#1");
                 var roleResult1 = await userMgr.AddToRoleAsync(user, "Admin");
-                var roleResult2 = await userMgr.AddToRoleAsync(user, "Creator");
                 var roleResult3 = await userMgr.AddToRoleAsync(user, "Player");
                 // var claimResult = await userMgr.AddClaimAsync(user, new Claim("DocentWeb", "True"));                
-                if (!userResult.Succeeded || !roleResult1.Succeeded || !roleResult2.Succeeded || !roleResult3.Succeeded)
+                if (!userResult.Succeeded || !roleResult1.Succeeded || !roleResult3.Succeeded)
                 {
                     throw new InvalidOperationException("Failed to build user and roles");
                 }

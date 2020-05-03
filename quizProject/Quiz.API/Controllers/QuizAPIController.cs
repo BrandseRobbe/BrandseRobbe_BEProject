@@ -36,6 +36,7 @@ namespace Quiz.API.Controllers
         }
 
         // GET: api/QuizAPI/edce166a-db38-4e71-8279-be8612a13632
+        [EnableCors("AllowOrigin")]
         [HttpGet("Quiz/{id}")]
         public async Task<IActionResult> GetQuiz(Guid? id)
         {
@@ -45,6 +46,8 @@ namespace Quiz.API.Controllers
             }
             return Ok(await quizRepo.GetQuizByIdAsync(id ?? Guid.Empty)); //Ok()) = OkObjectResult()
         }
+        
+        [EnableCors("AllowOrigin")]
         [HttpGet("Quiz/{id}/Questions")]
         public async Task<IActionResult> GetQuizQuestions(Guid? id)
         {
@@ -55,31 +58,31 @@ namespace Quiz.API.Controllers
             return Ok(await quizRepo.GetQuizQuestionsAsync(id ?? Guid.Empty));
         }
 
-        [HttpPost]
+        [EnableCors("AllowOrigin")]
+        [HttpPost("Quiz")]
         [Authorize(AuthenticationSchemes = AuthSchemes, Roles = "Creator")]
-        public async Task<IActionResult> PostQuiz([FromForm] QuizClass quiz)
+        public async Task<IActionResult> PostQuiz([FromBody] QuizClass quiz)
         {
-            //waarschijnlijk nog aanpassen naar DTO's
-            QuizClass confirmedModel = new QuizClass();
             try
             {
                 if (!ModelState.IsValid)
                 {
-                    return BadRequest(ModelState);
+                    return BadRequest(ModelState.Values);
                 }
-                confirmedModel = await quizRepo.Create(quiz);
+                QuizClass confirmedModel = await quizRepo.Create(quiz);
                 if (confirmedModel == null) return BadRequest("Something went wrong");
+                return Ok(confirmedModel);
             }
             catch (Exception exc)
             {
                 return BadRequest("Couldn't create the quiz");
             }
-            return CreatedAtAction("Get", new { id = confirmedModel.QuizId }, confirmedModel);
         }
 
-        [HttpPut("{id}")]
+        [EnableCors("AllowOrigin")]
+        [HttpPut("Quiz/{id}")]
         [Authorize(AuthenticationSchemes = AuthSchemes, Roles = "Creator")]
-        public async Task<ActionResult<QuizClass>> PutQuiz([FromForm] QuizClass quiz, Guid? id)
+        public async Task<ActionResult<QuizClass>> PutQuiz([FromBody] QuizClass quiz, Guid? id)
         {
             if (id == null)
             {
@@ -113,16 +116,17 @@ namespace Quiz.API.Controllers
             return Ok(confirmedModel);
         }
 
-        [HttpDelete("{id}")]
+        [EnableCors("AllowOrigin")]
+        [HttpDelete("Quiz/{id}")]
         [Authorize(AuthenticationSchemes = AuthSchemes, Roles = "Creator")]
-        public async Task DeletQuiz(Guid? id)
+        public async Task<IActionResult> DeletQuiz(Guid? id)
         {
             if (id == null)
             {
                 return BadRequest("This enpoind requires a valid QuizId");
             }
             await quizRepo.Delete(id ?? Guid.Empty);
-            return;
+            return new StatusCodeResult(200);
         }
     }
 }

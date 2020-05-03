@@ -11,7 +11,7 @@ namespace Quiz.Models
     {
         [Key]
         public Guid QuizId { get; set; } = Guid.NewGuid();
-
+        [Required]
         [Range(0, 10, ErrorMessage = "Value must be between {1} and {2}.")]
         public int Difficulty { get; set; }
         [Required]

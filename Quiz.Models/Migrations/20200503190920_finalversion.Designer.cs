@@ -10,14 +10,14 @@ using Quiz.Web.Data;
 namespace Quiz.Models.Migrations
 {
     [DbContext(typeof(QuizDbContext))]
-    [Migration("20200502105740_rebootdbv2")]
-    partial class rebootdbv2
+    [Migration("20200503190920_finalversion")]
+    partial class finalversion
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.2")
+                .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -213,6 +213,7 @@ namespace Quiz.Models.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Difficulty")
