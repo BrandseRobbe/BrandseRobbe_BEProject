@@ -168,5 +168,19 @@ namespace Quiz.Models.Repositories
             IEnumerable<IEnumerable<Question>> en = result;
             return en;
         }
+
+        public async Task<IEnumerable<Game>> GetGamesByDate(DateTime? date)
+        {
+            try
+            {
+                return await context.Games.Where(e => e.TimeFinished != null && e.TimeFinished.Value.Date == date.Value.Date).ToListAsync();
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+                return null;
+            }
+        }
+
     }
 }

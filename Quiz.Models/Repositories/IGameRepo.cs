@@ -14,6 +14,7 @@ namespace Quiz.Models.Repositories
         Task<IEnumerable<Game>> GetAllFinishedGamesAsync();
         Task<Game> GetGameByIdAsync(Guid id);
         Task<IEnumerable<IEnumerable<Question>>> GetGameResults(Guid GameId);
+        Task<IEnumerable<Game>> GetGamesByDate(DateTime? date);
         Task RemoveUsersActiveGames(string userId);
         Task<Game> Update(Game game);
     }
